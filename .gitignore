@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+!.env.example
+
+# Prisma
+generated/prisma/
+prisma/generated/
+*.db
+
+# Build & Dist
+dist/
+build/
+.next/
+.nuxt/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+
+# Lock files (optional, depending on project structure)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lock
+
+# Logs & Misc
+npm-debug.log*
+tmp/
+vendor/   
