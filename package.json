@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@fastify/cors": "^11.2.0",
-    "prettier": "^3.8.1"
-  }
-}

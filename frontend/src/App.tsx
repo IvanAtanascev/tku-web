@@ -1,12 +1,11 @@
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import GameLoop from "./pages/GameLoop";
 import Login from "./pages/Login";
-import CreateDeck from "./pages/CreateDeck";
+import Nav from "./components/Nav";
 import DeckEdit from "./components/DeckEdit";
 import { Toaster } from "react-hot-toast";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
-import LogoutButton from "./components/LogoutButton";
 import { useEffect, useState } from "react";
 
 // A quick placeholder component for your dashboard so the home page isn't blank
@@ -51,12 +50,11 @@ export default function App() {
     <>
       <BrowserRouter>
         <Toaster />
-        <LogoutButton
+        <Nav
           logoutCallback={() => {
             setUser(null);
           }}
         />
-        <Link to="/">Home</Link>
         <Routes>
           <Route
             path="/"
@@ -72,8 +70,6 @@ export default function App() {
           <Route path="/login" element={<Login setUser={setUser} />} />
 
           <Route path="/register" element={<Register />} />
-
-          <Route path="/create/deck" element={<CreateDeck />} />
 
           <Route
             path="*"

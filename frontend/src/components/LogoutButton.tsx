@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import styles from "./Nav.module.css"
 import toast from "react-hot-toast";
 
 interface LogoutButtonProps {
@@ -26,14 +27,8 @@ export default function LogoutButton({ logoutCallback }: LogoutButtonProps) {
 
   return (
     <button
+      className={styles.navButton}
       onClick={handleLogout}
-      style={{
-        padding: "10px",
-        background: "#4CAF50",
-        color: "white",
-        fontSize: "1rem",
-        cursor: "pointer",
-      }}
     >
       log out
     </button>

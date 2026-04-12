@@ -57,6 +57,7 @@ export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
         style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
       >
         <input
+          name="original"
           type="text"
           placeholder="original"
           value={original}
@@ -66,6 +67,7 @@ export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
         />
 
         <input
+          name="translation"
           type="text"
           placeholder="translation"
           value={translation}
@@ -76,6 +78,7 @@ export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
 
         <input
           type="text"
+          name="description"
           placeholder="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -85,13 +88,6 @@ export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
 
         <button
           type="submit"
-          style={{
-            padding: "10px",
-            background: "#4CAF50",
-            color: "white",
-            fontSize: "1rem",
-            cursor: "pointer",
-          }}
         >
           Create Card
         </button>

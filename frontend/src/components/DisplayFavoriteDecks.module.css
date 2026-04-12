@@ -1,0 +1,77 @@
+.grid {
+  display: grid;
+  /* This magically creates responsive columns! Minimum 280px wide, expanding to fill space */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 24px 0;
+}
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr; /* 1 column on phones */
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Cards generally look cleaner left-aligned */
+  
+  /* Tap into your new global theme variables! */
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  
+  /* Smooth animation for the hover effect */
+  transition: all 0.2s ease;
+
+  height: 100%;
+  min-height: 220px;
+  box-sizing: border-box;
+}
+
+.card:hover {
+  /* Gives it a subtle lift and a violet glow matching your accent color */
+  transform: translateY(-4px);
+  border-color: var(--accent-border);
+  box-shadow: 0 12px 20px -8px var(--accent-bg);
+}
+
+.cardHeader {
+  /* 'margin-bottom: auto' is a flexbox trick! 
+     It pushes everything below it (the buttons) securely to the bottom of the card */
+  margin-bottom: auto; 
+  padding-bottom: 32px;
+}
+
+.cardHeader h2 {
+  margin: 0;
+  /* Inherits your global Inter font automatically */
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* Puts a clean space between your buttons */
+  align-items: center;
+}
+
+/* React Router Links add invisible <a> tags that can mess up flexbox. 
+   This ensures they sit nicely next to each other. */
+.actions a {
+  text-decoration: none;
+  display: block;
+}
+.actions button {
+  padding: 8px 14px;      /* Much smaller padding */
+  font-size: 0.85rem;     /* Slightly smaller text */
+  border-radius: 6px;     /* Slightly sharper corners for small buttons */
+  white-space: nowrap;    /* Forces the button text to stay on one line */
+}

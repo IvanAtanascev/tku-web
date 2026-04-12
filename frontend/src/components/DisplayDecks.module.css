@@ -1,0 +1,65 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 24px 0;
+}
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr; /* 1 column on phones */
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+  height: 100%;
+  min-height: 220px;
+  box-sizing: border-box;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-border);
+  box-shadow: 0 12px 20px -8px var(--accent-bg);
+}
+
+.cardHeader {
+  margin-bottom: auto; 
+  padding-bottom: 32px;
+}
+
+.cardHeader h2 {
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.actions a {
+  text-decoration: none;
+  display: block;
+}
+.actions button {
+  padding: 8px 14px;      /* Much smaller padding */
+  font-size: 0.85rem;     /* Slightly smaller text */
+  border-radius: 6px;     /* Slightly sharper corners for small buttons */
+  white-space: nowrap;    /* Forces the button text to stay on one line */
+}

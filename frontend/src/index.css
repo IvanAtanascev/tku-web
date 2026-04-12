@@ -1,22 +1,29 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* Soft, warm off-white foundation */
+  --bg: #fafaf9;
+  --text: #57534e;
+  --text-h: #1c1917;
+  --border: #e7e5e4;
+  --code-bg: #f5f5f4;
+  
+  /* Modern, slightly muted violet accent */
+  --accent: #8b5cf6;
+  --accent-bg: rgba(139, 92, 246, 0.1);
+  --accent-border: rgba(139, 92, 246, 0.3);
+  --social-bg: rgba(245, 245, 244, 0.6);
+  
+  /* Ultra-smooth, elegant modern shadow */
+  --shadow: 
+    rgba(28, 25, 23, 0.04) 0 10px 15px -3px, 
+    rgba(28, 25, 23, 0.02) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Modern typography stack */
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --heading: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
+  font: 18px/1.5 var(--sans);
+  letter-spacing: 0.01em;
   color-scheme: light dark;
   color: var(--text);
   background: var(--bg);
@@ -32,17 +39,21 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
+    /* Deep warm-gray for dark mode (avoids harsh pure black) */
+    --bg: #1c1917;
+    --text: #a8a29e;
+    --text-h: #f5f5f4;
+    --border: #292524;
+    --code-bg: #292524;
+    
+    --accent: #a78bfa;
+    --accent-bg: rgba(167, 139, 250, 0.15);
+    --accent-border: rgba(167, 139, 250, 0.4);
+    --social-bg: rgba(41, 37, 36, 0.5);
+    
     --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+      rgba(0, 0, 0, 0.3) 0 10px 15px -3px, 
+      rgba(0, 0, 0, 0.15) 0 4px 6px -2px;
   }
 
   #social .button-icon {
@@ -69,28 +80,30 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
+  font-weight: 600; /* Slightly bolder for modern contrast */
   color: var(--text-h);
 }
 
 h1 {
   font-size: 56px;
-  letter-spacing: -1.68px;
+  letter-spacing: -0.03em; /* Tighter tracking on huge text is very modern */
   margin: 32px 0;
   @media (max-width: 1024px) {
     font-size: 36px;
     margin: 20px 0;
   }
 }
+
 h2 {
   font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   margin: 0 0 8px;
   @media (max-width: 1024px) {
     font-size: 20px;
   }
 }
+
 p {
   margin: 0;
 }
@@ -99,13 +112,73 @@ code,
 .counter {
   font-family: var(--mono);
   display: inline-flex;
-  border-radius: 4px;
+  border-radius: 6px; /* Slightly rounder code blocks */
   color: var(--text-h);
 }
 
 code {
-  font-size: 15px;
-  line-height: 135%;
+  font-size: 14px; /* Dropped slightly so it doesn't overpower inline text */
+  line-height: 1.4;
   padding: 4px 8px;
   background: var(--code-bg);
+  border: 1px solid var(--border); /* Added subtle border to code tags */
+}
+
+
+button {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 13px 23px;
+  transition: all 0.2s ease;
+  
+  /* 🌙 The Magic: Using your theme variables! */
+  background: var(--bg);
+  color: var(--text-h);
+  border: 1px solid var(--border);
+}
+
+button:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-border);
+  box-shadow: 0 12px 20px -8px var(--accent-bg);
+}
+
+/* pro-tip: add an active state so it physically clicks down! */
+button:active {
+  transform: scale(0.96);
+}
+
+input {
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-family: var(--sans); /* Match the app font */
+  
+  /* Input theme styling */
+  background: transparent;
+  color: var(--text-h);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  
+  /* Smooth transition for when the user clicks it */
+  transition: all 0.2s ease;
+  box-sizing: border-box; /* Ensures padding doesn't break the width */
+}
+
+input:focus {
+  outline: none;
+  /* Use your purple accent for the active state */
+  border-color: var(--accent); 
+  /* Add a subtle glowing ring around the input using your accent background variable */
+  box-shadow: 0 0 0 4px var(--accent-bg); 
+}
+
+/* Make sure the placeholder text looks good in dark mode too */
+input::placeholder {
+  color: var(--text);
+  opacity: 0.6;
 }

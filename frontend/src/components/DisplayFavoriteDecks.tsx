@@ -1,41 +1,60 @@
 import { Link } from "react-router-dom";
 import type { Deck } from "../types/Deck";
+import styles from "./DisplayFavoriteDecks.module.css";
 
 interface DisplayFavoriteDecksProps {
   decks: Deck[];
-};
+  userId: number;
+  unfavoriteCallback: () => void;
+}
 
-export default function DisplayFavoriteDecks({ decks }: DisplayFavoriteDecksProps) {
+export default function DisplayFavoriteDecks({
+  decks,
+  userId,
+  unfavoriteCallback,
+}: DisplayFavoriteDecksProps) {
+  const handleUnfavoriteClick = async (deckId: number) => {
+    try {
+      const response = await fetch(`/api/decks/favorite/${deckId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "unfavoriting deck failed");
+      }
+      unfavoriteCallback();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div>
+    <div className={styles.grid}>
       {decks.map((deck) => {
         return (
-          <div key={deck.id}>
-            <div>{`${deck.name}`}</div>
-            <Link
-              to={`/play/${deck.id}`}
-              style={{
-                padding: "10px 20px",
-                background: "#4CAF50",
-                color: "white",
-                textDecoration: "none",
-                borderRadius: "8px",
-              }}
-            >
-              Play
-            </Link>
-            <Link
-              to={`/edit/${deck.id}`}
-              style={{
-                padding: "10px 20px",
-                background: "#4CAF50",
-                color: "white",
-                textDecoration: "none",
-                borderRadius: "8px",
-              }}
-            >
-              Edit deck
-            </Link>
+          <div key={deck.id} className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h2>{`${deck.name}`}</h2>
+            </div>
+            <div className={styles.actions}>
+              <Link to={`/play/${deck.id}`}>
+                <button>Play</button>
+              </Link>
+              {deck.authorId === userId ? (
+                <Link to={`/edit/${deck.id}`}>
+                  <button>Edit deck</button>
+                </Link>
+              ) : null}
+              <button
+                onClick={() => {
+                  handleUnfavoriteClick(deck.id);
+                }}
+              >
+                Unfavorite
+              </button>
+            </div>
           </div>
         );
       })}

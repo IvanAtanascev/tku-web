@@ -1,0 +1,65 @@
+/* Dashboard.module.css */
+
+.pageContainer {
+  margin: 0 auto;
+  padding: 32px;
+  width: 93%;
+  
+  /* Change to flexbox to stack everything vertically */
+  display: flex;
+  flex-direction: column;
+  gap: 64px; /* Puts a massive, clean gap between the decks and the create form */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.pageIndicator {
+  font-family: var(--mono);
+  background: var(--code-bg);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.pageButton {
+  font-family: var(--mono);
+  background: var(--code-bg);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+/* Add a wrapper to center the Create Deck form at the bottom */
+.createSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px dashed var(--border); /* Optional: adds a visual separator */
+  padding-top: 64px;
+}

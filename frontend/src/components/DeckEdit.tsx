@@ -4,6 +4,7 @@ import type { Deck } from "../types/Deck";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import CreateCard from "./CreateCard";
+import styles from "./DeckEdit.module.css";
 
 export default function DeckEdit() {
   const { deckId } = useParams();
@@ -15,8 +16,7 @@ export default function DeckEdit() {
   const [totalCards, setTotalCards] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [hasPrevPage, setHasPreviousPage] = useState<boolean>(false);
-  const [addCardRefreshTrigger, setAddCardRefreshTrigger] =
-    useState<boolean>(false);
+  const [refreshTrigger, setRefreshTrigger] = useState<boolean>(false);
 
   const handleNextPage = () => {
     setPage((prev) => prev + 1);
@@ -65,6 +65,23 @@ export default function DeckEdit() {
         ),
       );
       toast.success("card updated");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteCard = async (cardId: number) => {
+    try {
+      const response = await fetch(`/api/cards/${cardId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("failed to delete card");
+      }
+      setRefreshTrigger((prev) => !prev);
+      toast.success("card deleted");
     } catch (error) {
       console.error(error);
     }
@@ -133,88 +150,86 @@ export default function DeckEdit() {
     };
 
     init();
-  }, [deckId, page, addCardRefreshTrigger]);
+  }, [deckId, page, refreshTrigger]);
 
   if (isLoading) return <div>loading deck contents...</div>;
 
   return (
-    <div>
-      <h2>{deckName}</h2> {/* changed to h2 just to make it pop! */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column", // stacks the card rows vertically
-          gap: "15px", // space between each card row
-          margin: "2rem auto",
-          maxWidth: "800px",
-        }}
-      >
+    <div className={styles.pageContainer}>
+      <h2 className={styles.header}>{deckName}</h2>
+
+      <div className={styles.cardList}>
         {deckId && (
           <CreateCard
-            onCardCreated={() => setAddCardRefreshTrigger((prev) => !prev)}
+            onCardCreated={() => setRefreshTrigger((prev) => !prev)}
             deckId={parseInt(deckId)}
           />
         )}
+
         {cards.map((card) => (
-          <div
-            key={card.id}
-            style={{
-              display: "flex", // THIS makes the contents horizontal!
-              flexDirection: "row", // (this is the default, but good to be explicit)
-              alignItems: "center", // vertically centers the text with the inputs
-              justifyContent: "space-between", // spreads them out evenly
-              gap: "10px",
-              padding: "10px",
-              border: "1px solid #ddd", // adds a nice box around each row
-              borderRadius: "8px",
-              background: "#090909",
-            }}
-          >
+          <div key={card.id} className={styles.editorCard}>
             <form
               onSubmit={(e) => handleUpdateCard(e, card.id)}
-              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+              className={styles.form}
             >
-              {/* grouping the label and input together keeps them attached */}
-              <div
-                style={{ display: "flex", gap: "5px", alignItems: "center" }}
-              >
-                <strong>original:</strong>
-                <div>{card.original}</div>
-                <input name="original" placeholder={card.original} />
+              <div className={styles.fieldGroup}>
+                <span className={styles.label}>Original</span>
+                <div className={styles.currentValue}>{card.original}</div>
+                <input
+                  name="original"
+                  placeholder="New original..."
+                  className={styles.input}
+                />
               </div>
 
-              <div
-                style={{ display: "flex", gap: "5px", alignItems: "center" }}
-              >
-                <strong>translation:</strong>
-                <div>{card.translation}</div>
-                <input name="translation" placeholder={card.translation} />
+              <div className={styles.fieldGroup}>
+                <span className={styles.label}>Translation</span>
+                <div className={styles.currentValue}>{card.translation}</div>
+                <input
+                  name="translation"
+                  placeholder="New translation..."
+                  className={styles.input}
+                />
               </div>
 
-              <div
-                style={{ display: "flex", gap: "5px", alignItems: "center" }}
-              >
-                <strong>desc:</strong>
-                <div>{card.description}</div>
-                <input name="description" placeholder={card.description} />
+              <div className={styles.fieldGroup}>
+                <span className={styles.label}>Description</span>
+                <div className={styles.currentValue}>{card.description}</div>
+                <input
+                  name="description"
+                  placeholder="New description..."
+                  // Applies both the base input style AND the larger descInput style
+                  className={`${styles.input} ${styles.descInput}`}
+                />
               </div>
 
-              <button
-                type="submit"
-                style={{ display: "flex", gap: "5px", alignItems: "center" }}
-              >
-                Update
-              </button>
+              {/* Group the buttons together at the bottom! */}
+              <div className={styles.actions}>
+                <button
+                  type="button"
+                  className={styles.deleteBtn}
+                  onClick={() => handleDeleteCard(card.id)}
+                >
+                  Delete
+                </button>
+                <button type="submit">Update</button>
+              </div>
             </form>
           </div>
         ))}
       </div>
-      <div>
-        <div>{`${page}/${totalPages}`}</div>
-        {hasPrevPage ? (
-          <button onClick={handlePrevPage}>previous</button>
-        ) : null}
-        {hasNextPage ? <button onClick={handleNextPage}>next</button> : null}
+
+      {/* Reused your clean pagination design here! */}
+      <div className={styles.pagination}>
+        {hasPrevPage && (
+          <button onClick={handlePrevPage}>&larr; Previous</button>
+        )}
+
+        <span className={styles.pageIndicator}>
+          Page {page} / {totalPages}
+        </span>
+
+        {hasNextPage && <button onClick={handleNextPage}>Next &rarr;</button>}
       </div>
     </div>
   );

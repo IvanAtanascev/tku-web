@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { WordDisplay } from "../components/WordDisplay";
 import type { Card } from "../types/Card";
+import styles from "./GameLoop.module.css"
 
 export default function GameLoop() {
   const { deckId } = useParams();
@@ -103,89 +104,52 @@ export default function GameLoop() {
   if (isLoading) return <div>loading your deck...</div>;
   if (cards.length === 0) return <div>this deck has no cards yet!</div>;
 
-  return (
-    <div
-      style={{
-        padding: "2rem",
-        maxWidth: "600px",
-        margin: "0 auto",
-        textAlign: "center",
-      }}
-    >
-      <h2>
-        card {currentIndex + 1} of {cards.length}
+return (
+    <div className={styles.container}>
+      
+      {/* 1. Cleaned up the counter and styled it nicely */}
+      <h2 className={styles.counter}>
+        Card {currentIndex + 1} of {cards.length}
       </h2>
 
+      {/* 2. The Interactive Flashcard */}
       <div
         onClick={() => setIsFlipped(!isFlipped)}
-        style={{
-          border: "2px solid #333",
-          borderRadius: "12px",
-          padding: "4rem",
-          margin: "2rem 0",
-          cursor: "pointer",
-          minHeight: "200px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
+        className={styles.flashcard}
       >
         {isFlipped ? (
           <div>
-            <h1 style={{ color: "#4CAF50" }}>{currentCard.original}</h1>
-            {currentCard.description && <p>{currentCard.description}</p>}
+            <h1 className={styles.originalText}>{currentCard.original}</h1>
+            {currentCard.description && (
+              <p className={styles.descriptionText}>{currentCard.description}</p>
+            )}
           </div>
         ) : (
-          <h1>{currentCard.translation}</h1>
+          <h1 className={styles.translationText}>{currentCard.translation}</h1>
         )}
       </div>
 
-      <div
-        style={{
-          padding: "2rem",
-          maxWidth: "600px",
-          margin: "0 auto",
-          textAlign: "center",
-        }}
-      >
-        <h2>
-          card {currentIndex + 1} of {cards.length}
-        </h2>
-
+      {/* 3. The Word Display (Typing Practice) Wrapper */}
+      <div className={styles.wordDisplayWrapper}>
         <WordDisplay targetWord={currentCard.original} userInput={userInput} />
       </div>
-      <button
-        onClick={() => {
-          handleReviewLogic("easy", currentCard);
-        }}
-        style={{ padding: "10px 20px", fontSize: "1.2rem" }}
-      >
-        easy
-      </button>
-      <button
-        onClick={() => {
-          handleReviewLogic("good", currentCard);
-        }}
-        style={{ padding: "10px 20px", fontSize: "1.2rem" }}
-      >
-        good
-      </button>
-      <button
-        onClick={() => {
-          handleReviewLogic("normal", currentCard);
-        }}
-        style={{ padding: "10px 20px", fontSize: "1.2rem" }}
-      >
-        normal
-      </button>
-      <button
-        onClick={() => {
-          handleReviewLogic("hard", currentCard);
-        }}
-        style={{ padding: "10px 20px", fontSize: "1.2rem" }}
-      >
-        hard
-      </button>
+
+      {/* 4. The Spaced Repetition Buttons spaced perfectly in a row */}
+      <div className={styles.reviewActions}>
+        <button onClick={() => handleReviewLogic("easy", currentCard)}>
+          Easy
+        </button>
+        <button onClick={() => handleReviewLogic("good", currentCard)}>
+          Good
+        </button>
+        <button onClick={() => handleReviewLogic("normal", currentCard)}>
+          Normal
+        </button>
+        <button onClick={() => handleReviewLogic("hard", currentCard)}>
+          Hard
+        </button>
+      </div>
+      
     </div>
   );
 }

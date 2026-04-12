@@ -1,0 +1,88 @@
+.container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.counter {
+  font-family: var(--mono);
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 24px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* The actual Flashcard */
+.flashcard {
+  background: var(--bg);
+  border: 2px solid var(--border); /* Slightly thicker border for the main card */
+  border-radius: 16px;
+  padding: 48px 32px;
+  margin: 0 0 32px 0;
+  cursor: pointer;
+  min-height: 280px; /* Gives it a nice, substantial presence */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--shadow);
+  
+  /* Smooth interaction */
+  transition: all 0.2s ease;
+  /* Prevents text selection when double-clicking to flip */
+  user-select: none; 
+}
+
+.flashcard:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px var(--accent-bg);
+}
+
+.originalText {
+  font-size: 2.5rem;
+  margin: 0 0 16px 0;
+  /* Swapped the hardcoded green for your theme's accent color! */
+  color: var(--accent); 
+}
+
+.translationText {
+  font-size: 2.5rem;
+  margin: 0;
+  color: var(--text-h);
+}
+
+.descriptionText {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin: 0;
+  font-style: italic;
+}
+
+/* The typing practice area */
+.wordDisplayWrapper {
+  margin-bottom: 48px;
+  padding: 24px;
+  background: var(--code-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+/* The Spaced Repetition Buttons */
+.reviewActions {
+  display: flex;
+  justify-content: center;
+  gap: 16px; /* Spaces the buttons out perfectly */
+  flex-wrap: wrap; /* Ensures they don't break on super tiny phone screens */
+}
+
+/* Optional: Make the buttons fill the row equally */
+.reviewActions button {
+  flex: 1;
+  min-width: 100px; /* Prevents them from getting too squished */
+  padding: 12px 20px;
+}
