@@ -8,6 +8,7 @@ import {
   getDeckParamsSchema,
   favoriteDeckParamsSchema,
   paginationQuerySchema,
+  deleteDeckParamsSchema,
 } from "../schemas/decks.schemas";
 
 import type {
@@ -16,6 +17,7 @@ import type {
   GetDeckParams,
   FavoriteDeckParams,
   PaginationQuery,
+  DeleteDeckParams,
 } from "../schemas/decks.schemas";
 
 // 2. Import your newly separated controllers
@@ -26,18 +28,18 @@ import {
   getDeck,
   createDeck,
   favoriteDeck,
-  unfavoriteDeck
+  unfavoriteDeck,
+  deleteDeck,
 } from "../controllers/decks";
 
 const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
-  
   fastify.get<{ Querystring: PaginationQuery }>(
     "/",
     {
       preHandler: [fastify.authenticate],
       schema: { querystring: paginationQuerySchema },
     },
-    getAllDecks
+    getAllDecks,
   );
 
   fastify.get<{ Querystring: PaginationQuery }>(
@@ -46,7 +48,7 @@ const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
       preHandler: [fastify.authenticate],
       schema: { querystring: paginationQuerySchema },
     },
-    getFavoriteDecks
+    getFavoriteDecks,
   );
 
   fastify.get<{ Params: GetDeckCardsParams; Querystring: PaginationQuery }>(
@@ -58,7 +60,7 @@ const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
         querystring: paginationQuerySchema,
       },
     },
-    getDeckCards
+    getDeckCards,
   );
 
   fastify.get<{ Params: GetDeckParams }>(
@@ -67,16 +69,16 @@ const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
       preHandler: [fastify.authenticate],
       schema: { params: getDeckParamsSchema },
     },
-    getDeck
+    getDeck,
   );
 
   fastify.post<{ Body: CreateDeckBody }>(
     "/",
-    { 
-      preHandler: [fastify.authenticate], 
-      schema: { body: createDeckSchema } 
+    {
+      preHandler: [fastify.authenticate],
+      schema: { body: createDeckSchema },
     },
-    createDeck
+    createDeck,
   );
 
   fastify.post<{ Params: FavoriteDeckParams }>(
@@ -85,7 +87,7 @@ const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
       preHandler: [fastify.authenticate],
       schema: { params: favoriteDeckParamsSchema },
     },
-    favoriteDeck
+    favoriteDeck,
   );
 
   fastify.delete<{ Params: FavoriteDeckParams }>(
@@ -94,7 +96,16 @@ const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
       preHandler: [fastify.authenticate],
       schema: { params: favoriteDeckParamsSchema },
     },
-    unfavoriteDeck
+    unfavoriteDeck,
+  );
+
+  fastify.delete<{ Params: DeleteDeckParams }>(
+    "/:id",
+    {
+      preHandler: [fastify.authenticate],
+      schema: { params: deleteDeckParamsSchema },
+    },
+    deleteDeck,
   );
 };
 

@@ -15,7 +15,7 @@ model Card {
   original    String
   translation String
   description String
-  deck        Deck           @relation(fields: [deckId], references: [id])
+  deck        Deck           @relation(fields: [deckId], references: [id], onDelete: Cascade)
   deckId      Int
   progresses  CardProgress[]
 }

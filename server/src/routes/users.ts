@@ -3,11 +3,13 @@ import "dotenv/config";
 import {
   createUserSchema,
   deleteUserParamsSchema,
+  getAllUsersQuery,
   loginSchema,
 } from "../schemas/user.schemas";
 import type {
   CreateUserBody,
   DeleteUserParams,
+  GetAllUsersQuery,
   LoginBody,
 } from "../schemas/user.schemas";
 import {
@@ -25,7 +27,14 @@ const userRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
     fastify.post("/devc", createDevAdmin);
   }
 
-  fastify.get("/", { preHandler: [fastify.requireAdmin] }, getAllUsers);
+  fastify.get<{ Querystring: GetAllUsersQuery }>(
+    "/",
+    {
+      preHandler: [fastify.requireAdmin],
+      schema: { querystring: getAllUsersQuery },
+    },
+    getAllUsers,
+  );
 
   fastify.post<{ Body: CreateUserBody }>(
     "/",

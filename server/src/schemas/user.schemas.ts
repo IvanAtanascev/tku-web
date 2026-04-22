@@ -9,6 +9,11 @@ export const deleteUserParamsSchema = z.object({
   id: z.coerce.number().int().positive("userId must be a positive number"),
 });
 
+export const getAllUsersQuery = z.object({
+  page: z.coerce.number().int().positive().default(1),
+  limit: z.coerce.number().int().positive().max(100).default(10),
+});
+
 export const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
   password: z.string().min(1, "Password is required"),
@@ -17,3 +22,4 @@ export const loginSchema = z.object({
 export type CreateUserBody = z.infer<typeof createUserSchema>;
 export type DeleteUserParams = z.infer<typeof deleteUserParamsSchema>;
 export type LoginBody = z.infer<typeof loginSchema>;
+export type GetAllUsersQuery = z.infer<typeof getAllUsersQuery>;

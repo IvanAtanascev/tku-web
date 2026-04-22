@@ -71,14 +71,11 @@ export default function Dashboard({ userId }: DashboardProps) {
   };
 
   return (
-    // 2. Apply the main responsive grid container
     <div className={styles.pageContainer}>
       <div>
         <CreateDeck refreshTrigger={() => setRefreshTrigger((prev) => !prev)} />
       </div>
-      {/* LEFT COLUMN: The Deck List */}
 
-      {/* 3. The Header & Toggle (Refactored to be DRY!) */}
       <div className={styles.header}>
         <h1>{showFavorites ? "Favorite Decks" : "All Decks"}</h1>
         <button onClick={() => setShowFavorites(!showFavorites)}>
@@ -86,7 +83,6 @@ export default function Dashboard({ userId }: DashboardProps) {
         </button>
       </div>
 
-      {/* Render the correct list based on state */}
       {showFavorites ? (
         <DisplayFavoriteDecks
           unfavoriteCallback={() => setRefreshTrigger((prev) => !prev)}
@@ -100,7 +96,6 @@ export default function Dashboard({ userId }: DashboardProps) {
         />
       )}
 
-      {/* 4. Pagination Controls */}
       <div className={styles.pagination}>
         <span className={styles.pageIndicator}>
           Page {page} / {totalPages}
@@ -118,7 +113,6 @@ export default function Dashboard({ userId }: DashboardProps) {
         )}
       </div>
 
-      {/* RIGHT COLUMN: The Sidebar / Create Form */}
     </div>
   );
 }

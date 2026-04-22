@@ -57,13 +57,6 @@ export default function Register() {
         />
         <button
           type="submit"
-          style={{
-            padding: "10px",
-            background: "#4CAF50",
-            color: "white",
-            fontSize: "1rem",
-            cursor: "pointer",
-          }}
         >
           register
         </button>

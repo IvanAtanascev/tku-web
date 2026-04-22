@@ -2,17 +2,18 @@ import type { FastifyRequest, FastifyReply } from "fastify";
 import { prisma } from "../lib/prisma";
 
 // Import your inferred types from your schema file!
-import type { 
-  PaginationQuery, 
-  GetDeckParams, 
+import type {
+  PaginationQuery,
+  GetDeckParams,
   GetDeckCardsParams,
   FavoriteDeckParams,
-  CreateDeckBody 
+  CreateDeckBody,
+  DeleteDeckParams,
 } from "../schemas/decks.schemas";
 
 export const getAllDecks = async (
-  request: FastifyRequest<{ Querystring: PaginationQuery }>, 
-  reply: FastifyReply
+  request: FastifyRequest<{ Querystring: PaginationQuery }>,
+  reply: FastifyReply,
 ) => {
   const { page, limit } = request.query;
   const userId = request.user.id;
@@ -30,14 +31,18 @@ export const getAllDecks = async (
         where: { NOT: { favoritedBy: { some: { id: userId } } } },
       }),
     ]);
-    
+
     const totalPages = Math.ceil(totalDecks / limit);
 
     return reply.code(200).send({
       data: decks,
       meta: {
-        totalRecords: totalDecks, totalPages, currentPage: page,
-        limit, hasNextPage: page < totalPages, hasPrevPage: page > 1,
+        totalRecords: totalDecks,
+        totalPages,
+        currentPage: page,
+        limit,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
       },
     });
   } catch (error) {
@@ -47,8 +52,8 @@ export const getAllDecks = async (
 };
 
 export const getFavoriteDecks = async (
-  request: FastifyRequest<{ Querystring: PaginationQuery }>, 
-  reply: FastifyReply
+  request: FastifyRequest<{ Querystring: PaginationQuery }>,
+  reply: FastifyReply,
 ) => {
   const userId = request.user.id;
   const { page, limit } = request.query;
@@ -72,8 +77,12 @@ export const getFavoriteDecks = async (
     return reply.code(200).send({
       data: decks,
       meta: {
-        totalRecords: totalDecks, totalPages, currentPage: page,
-        limit, hasNextPage: page < totalPages, hasPrevPage: page > 1,
+        totalRecords: totalDecks,
+        totalPages,
+        currentPage: page,
+        limit,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
       },
     });
   } catch (error) {
@@ -83,8 +92,11 @@ export const getFavoriteDecks = async (
 };
 
 export const getDeckCards = async (
-  request: FastifyRequest<{ Params: GetDeckCardsParams; Querystring: PaginationQuery }>, 
-  reply: FastifyReply
+  request: FastifyRequest<{
+    Params: GetDeckCardsParams;
+    Querystring: PaginationQuery;
+  }>,
+  reply: FastifyReply,
 ) => {
   const { id } = request.params;
   const { page, limit } = request.query;
@@ -106,19 +118,25 @@ export const getDeckCards = async (
     return reply.code(200).send({
       data: cards,
       meta: {
-        totalRecords: totalCards, totalPages, currentPage: page,
-        limit, hasNextPage: page < totalPages, hasPrevPage: page > 1,
+        totalRecords: totalCards,
+        totalPages,
+        currentPage: page,
+        limit,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
       },
     });
   } catch (error) {
     request.log.error(error);
-    return reply.code(500).send({ error: `failed to fetch cards belonging to the deck with id: ${id}` });
+    return reply.code(500).send({
+      error: `failed to fetch cards belonging to the deck with id: ${id}`,
+    });
   }
 };
 
 export const getDeck = async (
-  request: FastifyRequest<{ Params: GetDeckParams }>, 
-  reply: FastifyReply
+  request: FastifyRequest<{ Params: GetDeckParams }>,
+  reply: FastifyReply,
 ) => {
   const { id } = request.params;
 
@@ -128,13 +146,13 @@ export const getDeck = async (
     return reply.code(200).send(deck);
   } catch (error) {
     request.log.error(error);
-    return reply.code(500).send({});
+    return reply.code(500).send({ error: `couldn't fetch deck ${id}`});
   }
 };
 
 export const createDeck = async (
-  request: FastifyRequest<{ Body: CreateDeckBody }>, 
-  reply: FastifyReply
+  request: FastifyRequest<{ Body: CreateDeckBody }>,
+  reply: FastifyReply,
 ) => {
   const { name } = request.body;
   const user = request.user as { id: number; username: string };
@@ -142,7 +160,8 @@ export const createDeck = async (
   try {
     const newDeck = await prisma.deck.create({
       data: {
-        name, authorId: user.id,
+        name,
+        authorId: user.id,
         favoritedBy: { connect: { id: user.id } },
       },
     });
@@ -154,8 +173,8 @@ export const createDeck = async (
 };
 
 export const favoriteDeck = async (
-  request: FastifyRequest<{ Params: FavoriteDeckParams }>, 
-  reply: FastifyReply
+  request: FastifyRequest<{ Params: FavoriteDeckParams }>,
+  reply: FastifyReply,
 ) => {
   const userId = request.user.id;
   const { id: deckId } = request.params;
@@ -173,8 +192,8 @@ export const favoriteDeck = async (
 };
 
 export const unfavoriteDeck = async (
-  request: FastifyRequest<{ Params: FavoriteDeckParams }>, 
-  reply: FastifyReply
+  request: FastifyRequest<{ Params: FavoriteDeckParams }>,
+  reply: FastifyReply,
 ) => {
   const userId = request.user.id;
   const { id: deckId } = request.params;
@@ -188,5 +207,33 @@ export const unfavoriteDeck = async (
   } catch (error) {
     request.log.error(error);
     return reply.code(500).send({ error: "failed to unfavorite deck" });
+  }
+};
+
+export const deleteDeck = async (
+  request: FastifyRequest<{ Params: DeleteDeckParams }>,
+  reply: FastifyReply,
+) => {
+  const user = request.user;
+  const { id: deckId } = request.params;
+  //custom auth check
+  try {
+    if (user.role !== "ADMIN") {
+      const authorIdCheck = await prisma.deck.findUnique({
+        where: { id: deckId },
+        select: { id: true, authorId: true },
+      });
+
+      if (authorIdCheck === null || authorIdCheck.authorId !== user.id) {
+        return reply.code(403).send({ error: "you can't delete this deck" });
+      }
+    }
+    await prisma.deck.delete({ where: { id: deckId } });
+    return reply.code(204).send();
+  } catch (error) {
+    request.log.error(error);
+    return reply
+      .code(500)
+      .send({ error: `failed to delete deck with id: ${deckId}` });
   }
 };

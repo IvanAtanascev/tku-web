@@ -6,6 +6,7 @@ import "dotenv/config";
 import type {
   CreateUserBody,
   DeleteUserParams,
+  GetAllUsersQuery,
   LoginBody,
 } from "../schemas/user.schemas";
 
@@ -27,12 +28,34 @@ export const createDevAdmin = async (
 };
 
 export const getAllUsers = async (
-  request: FastifyRequest,
+  request: FastifyRequest<{ Querystring: GetAllUsersQuery }>,
   reply: FastifyReply,
 ) => {
+  const { page, limit } = request.query;
+  const skip = (page - 1) * limit;
   try {
-    const users = await prisma.user.findMany();
-    return reply.code(200).send(users);
+    const [users, totalUsers] = await prisma.$transaction([
+      prisma.user.findMany({
+        skip: skip,
+        take: limit,
+        orderBy: { id: "asc" },
+      }),
+      prisma.user.count(),
+    ]);
+
+    const totalPages = Math.ceil(totalUsers / limit);
+
+    return reply.code(200).send({
+      data: users,
+      meta: {
+        totalRecords: totalUsers,
+        totalPages,
+        currentPage: page,
+        limit,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+      },
+    });
   } catch (error) {
     request.log.error(error);
     return reply.code(500).send({ error: "couldn't fetch users" });

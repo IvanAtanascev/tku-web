@@ -107,12 +107,10 @@ export default function GameLoop() {
 return (
     <div className={styles.container}>
       
-      {/* 1. Cleaned up the counter and styled it nicely */}
       <h2 className={styles.counter}>
         Card {currentIndex + 1} of {cards.length}
       </h2>
 
-      {/* 2. The Interactive Flashcard */}
       <div
         onClick={() => setIsFlipped(!isFlipped)}
         className={styles.flashcard}
@@ -129,12 +127,10 @@ return (
         )}
       </div>
 
-      {/* 3. The Word Display (Typing Practice) Wrapper */}
       <div className={styles.wordDisplayWrapper}>
         <WordDisplay targetWord={currentCard.original} userInput={userInput} />
       </div>
 
-      {/* 4. The Spaced Repetition Buttons spaced perfectly in a row */}
       <div className={styles.reviewActions}>
         <button onClick={() => handleReviewLogic("easy", currentCard)}>
           Easy

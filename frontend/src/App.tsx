@@ -8,8 +8,6 @@ import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
 import { useEffect, useState } from "react";
 
-// A quick placeholder component for your dashboard so the home page isn't blank
-
 interface User {
   id: number;
   username: string;

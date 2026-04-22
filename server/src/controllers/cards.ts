@@ -62,16 +62,18 @@ export const deleteCard = async (
   reply: FastifyReply,
 ) => {
   const { id } = request.params;
-  const user = request.user as { id: number; username: string };
+  const user = request.user as { id: number; username: string; role: string };
 
   try {
-    const authorIdCheck = await prisma.card.findUnique({
-      where: { id: id },
-      select: { id: true, deck: { select: { authorId: true } } },
-    });
+    if (user.role !== "ADMIN") {
+      const authorIdCheck = await prisma.card.findUnique({
+        where: { id: id },
+        select: { id: true, deck: { select: { authorId: true } } },
+      });
 
-    if (authorIdCheck === null || authorIdCheck.deck.authorId !== user.id) {
-      return reply.code(403).send({ error: "you can't delete this card" });
+      if (authorIdCheck === null || authorIdCheck.deck.authorId !== user.id) {
+        return reply.code(403).send({ error: "you can't delete this card" });
+      }
     }
 
     await prisma.card.delete({ where: { id: id } });
@@ -199,9 +201,6 @@ export const getCardsToStudy = async (
         ],
       },
       take: limit,
-      include: {
-        progresses: { where: { userId: user.id } },
-      },
     });
     return reply.code(200).send(cardsToStudy);
   } catch (error) {
