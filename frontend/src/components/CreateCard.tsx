@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCreateCard } from "../hooks/useCreateCard";
 
 interface CreateCardProps {
   deckId: number;
@@ -6,42 +6,15 @@ interface CreateCardProps {
 }
 
 export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
-  const [original, setOriginal] = useState("");
-  const [translation, setTranslation] = useState("");
-  const [description, setDescription] = useState("");
-
-  const handleCreateCard = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    try {
-      const response = await fetch("/api/cards", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          original: original,
-          translation: translation,
-          description: description,
-          deckId: deckId,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "creating card failed");
-      }
-
-      setOriginal("")
-      setDescription("")
-      setTranslation("")
-
-      onCardCreated()
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const {
+    original,
+    setOriginal,
+    translation,
+    setTranslation,
+    description,
+    setDescription,
+    handleCreateCard,
+  } = useCreateCard(deckId, onCardCreated);
 
   return (
     <div
@@ -86,11 +59,7 @@ export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
           required
         />
 
-        <button
-          type="submit"
-        >
-          Create Card
-        </button>
+        <button type="submit">Create Card</button>
       </form>
     </div>
   );

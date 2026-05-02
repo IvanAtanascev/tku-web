@@ -1,4 +1,5 @@
 import type { FastifyRequest, FastifyReply } from "fastify";
+import type { Prisma } from "../generated/prisma/client";
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import "dotenv/config";
@@ -31,16 +32,34 @@ export const getAllUsers = async (
   request: FastifyRequest<{ Querystring: GetAllUsersQuery }>,
   reply: FastifyReply,
 ) => {
-  const { page, limit } = request.query;
+  const { page, limit, username, userId } = request.query;
   const skip = (page - 1) * limit;
+
+  const where: Prisma.UserWhereInput = {
+    AND: [
+      ...(userId ? [{ id: userId }] : []),
+      ...(username
+        ? [
+            {
+              username: {
+                contains: username,
+              },
+            },
+          ]
+        : []),
+    ],
+  };
   try {
     const [users, totalUsers] = await prisma.$transaction([
       prisma.user.findMany({
+        where: where,
         skip: skip,
         take: limit,
         orderBy: { id: "asc" },
       }),
-      prisma.user.count(),
+      prisma.user.count({
+        where: where,
+      }),
     ]);
 
     const totalPages = Math.ceil(totalUsers / limit);

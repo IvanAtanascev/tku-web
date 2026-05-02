@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
 import { useEffect, useState } from "react";
+import UserListDashboard from "./pages/UserListDashboard";
 
 interface User {
   id: number;
@@ -60,7 +61,11 @@ export default function App() {
               user ? <Dashboard userId={user.id} /> : <Navigate to="/login" />
             }
           />
-
+          {user ? (
+            user.role === "ADMIN" ? (
+              <Route path="/users" element={<UserListDashboard />} />
+            ) : null
+          ) : null}
           <Route path="/play/:deckId" element={<GameLoop />} />
 
           <Route path="/edit/:deckId" element={<DeckEdit />} />

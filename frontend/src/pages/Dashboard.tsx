@@ -1,74 +1,31 @@
-import type { Deck } from "../types/Deck";
-import { useEffect, useState } from "react";
 import DisplayDecks from "../components/DisplayDecks";
 import DisplayFavoriteDecks from "../components/DisplayFavoriteDecks";
 import CreateDeck from "../components/CreateDeck";
 import styles from "./Dashboard.module.css";
+import { useDashboard } from "../hooks/useDashboard";
 
 type DashboardProps = {
   userId: number;
 };
 
 export default function Dashboard({ userId }: DashboardProps) {
-  const [decks, setDecks] = useState<Deck[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [totalDecks, setTotalDecks] = useState<number>(1);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
-  const [hasPrevPage, setHasPreviousPage] = useState<boolean>(false);
-  const [showFavorites, setShowFavorites] = useState<boolean>(true);
-  const [refreshTrigger, setRefreshTrigger] = useState<boolean>(true);
-
-  useEffect(() => {
-    const handleGetDecks = async () => {
-      try {
-        let response = null;
-        if (showFavorites) {
-          response = await fetch(`/api/decks/favorites?page=${page}&limit=9`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          });
-        } else {
-          response = await fetch(`/api/decks/?page=${page}&limit=9`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          });
-        }
-
-        if (!response.ok) {
-          throw new Error("failed to fetch decks");
-        }
-
-        const { data, meta } = await response.json();
-        const deck: Deck[] = data;
-
-        setTotalPages(meta.totalPages);
-        setTotalDecks(meta.totalDecks);
-        setHasNextPage(meta.hasNextPage);
-        setHasPreviousPage(meta.hasPrevPage);
-
-        setDecks(deck);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    handleGetDecks();
-  }, [page, showFavorites, refreshTrigger]);
-
-  const handleNextPage = () => {
-    setPage((prev) => prev + 1);
-  };
-
-  const handlePreviousPage = () => {
-    setPage((prev) => prev - 1);
-  };
+  const {
+    decks,
+    page,
+    setPage,
+    totalPages,
+    hasNextPage,
+    hasPrevPage,
+    showFavorites,
+    setShowFavorites,
+    setRefreshTrigger,
+    query,
+    userIsTyping,
+    handleOnInputChange,
+    handleChangeFavorite,
+    handleNextPage,
+    handlePreviousPage,
+  } = useDashboard();
 
   return (
     <div className={styles.pageContainer}>
@@ -78,22 +35,36 @@ export default function Dashboard({ userId }: DashboardProps) {
 
       <div className={styles.header}>
         <h1>{showFavorites ? "Favorite Decks" : "All Decks"}</h1>
-        <button onClick={() => setShowFavorites(!showFavorites)}>
+        <button
+          onClick={() => {
+            setShowFavorites(!showFavorites);
+            setPage(1);
+          }}
+        >
           {showFavorites ? "View All Decks" : "View Favorites"}
         </button>
       </div>
 
+      <div>
+        <input
+          placeholder="Search for a deck.."
+          name="search query"
+          onChange={(e) => {
+            handleOnInputChange(e);
+          }}
+        />
+        <div>{query}</div>
+      </div>
+      {userIsTyping ? <div>"Loading..."</div> : null}
+
       {showFavorites ? (
         <DisplayFavoriteDecks
-          unfavoriteCallback={() => setRefreshTrigger((prev) => !prev)}
+          unfavoriteCallback={handleChangeFavorite}
           userId={userId}
           decks={decks}
         />
       ) : (
-        <DisplayDecks
-          favoriteCallback={() => setRefreshTrigger((prev) => !prev)}
-          decks={decks}
-        />
+        <DisplayDecks favoriteCallback={handleChangeFavorite} decks={decks} />
       )}
 
       <div className={styles.pagination}>
@@ -112,7 +83,6 @@ export default function Dashboard({ userId }: DashboardProps) {
           </button>
         )}
       </div>
-
     </div>
   );
 }

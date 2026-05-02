@@ -7,7 +7,6 @@ interface CreateDeckProps {
 
 export default function CreateDeck({ refreshTrigger }: CreateDeckProps) {
   const [deckName, setDeckName] = useState("");
-  //const [error, setError] = useState("");
 
   const handleCreateDeck = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();

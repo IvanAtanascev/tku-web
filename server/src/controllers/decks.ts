@@ -1,7 +1,6 @@
 import type { FastifyRequest, FastifyReply } from "fastify";
 import { prisma } from "../lib/prisma";
 
-// Import your inferred types from your schema file!
 import type {
   PaginationQuery,
   GetDeckParams,
@@ -9,7 +8,10 @@ import type {
   FavoriteDeckParams,
   CreateDeckBody,
   DeleteDeckParams,
+  DeckSearchQuery,
+  DeckCardsSearchQuery,
 } from "../schemas/decks.schemas";
+import type { Prisma } from "../generated/prisma/client";
 
 export const getAllDecks = async (
   request: FastifyRequest<{ Querystring: PaginationQuery }>,
@@ -94,23 +96,59 @@ export const getFavoriteDecks = async (
 export const getDeckCards = async (
   request: FastifyRequest<{
     Params: GetDeckCardsParams;
-    Querystring: PaginationQuery;
+    Querystring: DeckCardsSearchQuery;
   }>,
   reply: FastifyReply,
 ) => {
   const { id } = request.params;
-  const { page, limit } = request.query;
+  const { page, limit, queryOriginal, queryDescription, queryTranslation } =
+    request.query;
   const skip = (page - 1) * limit;
+
+  console.log(`${queryOriginal}\n`);
+
+  const where: Prisma.CardWhereInput = {
+    AND: [
+      { deckId: id },
+      ...(queryOriginal
+        ? [
+            {
+              original: {
+                contains: queryOriginal,
+              },
+            },
+          ]
+        : []),
+      ...(queryTranslation
+        ? [
+            {
+              translation: {
+                contains: queryTranslation,
+              },
+            },
+          ]
+        : []),
+      ...(queryDescription
+        ? [
+            {
+              description: {
+                contains: queryDescription,
+              },
+            },
+          ]
+        : []),
+    ],
+  };
 
   try {
     const [cards, totalCards] = await prisma.$transaction([
       prisma.card.findMany({
-        where: { deckId: id },
+        where: where,
         skip: skip,
         take: limit,
         orderBy: { id: "desc" },
       }),
-      prisma.card.count({ where: { deckId: id } }),
+      prisma.card.count({ where: where }),
     ]);
 
     const totalPages = Math.ceil(totalCards / limit);
@@ -146,7 +184,7 @@ export const getDeck = async (
     return reply.code(200).send(deck);
   } catch (error) {
     request.log.error(error);
-    return reply.code(500).send({ error: `couldn't fetch deck ${id}`});
+    return reply.code(500).send({ error: `couldn't fetch deck ${id}` });
   }
 };
 
@@ -235,5 +273,90 @@ export const deleteDeck = async (
     return reply
       .code(500)
       .send({ error: `failed to delete deck with id: ${deckId}` });
+  }
+};
+
+export const searchDeck = async (
+  request: FastifyRequest<{ Querystring: DeckSearchQuery }>,
+  reply: FastifyReply,
+) => {
+  const userId = request.user.id;
+  const {
+    query: searchQuery,
+    page: page,
+    limit: limit,
+    favorite: favorite,
+  } = request.query;
+  const skip = (page - 1) * limit;
+
+  const where: Prisma.DeckWhereInput = {
+    AND: [
+      ...(searchQuery
+        ? [
+            {
+              name: {
+                contains: searchQuery,
+              },
+            },
+          ]
+        : []),
+      ...(favorite
+        ? [
+            {
+              favoritedBy: {
+                some: { id: userId },
+              },
+            },
+          ]
+        : [
+            {
+              NOT: {
+                favoritedBy: {
+                  some: { id: userId },
+                },
+              },
+            },
+          ]),
+    ],
+  };
+
+  if (favorite === true) {
+    console.log("true\n");
+  } else if (favorite === false) {
+    console.log("false\n");
+  } else {
+    console.log("not false\n");
+  }
+  try {
+    const [foundDecks, totalDecks] = await prisma.$transaction([
+      prisma.deck.findMany({
+        where: where,
+        skip: skip,
+        take: limit,
+        orderBy: { id: "asc" },
+      }),
+      prisma.deck.count({
+        where: where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalDecks / limit);
+
+    return reply.code(200).send({
+      data: foundDecks,
+      meta: {
+        totalRecords: totalDecks,
+        totalPages,
+        currentPage: page,
+        limit,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+      },
+    });
+  } catch (error) {
+    request.log.error(error);
+    return reply
+      .code(500)
+      .send({ error: `failed searching deck error: ${error}` });
   }
 };
