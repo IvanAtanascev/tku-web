@@ -1,0 +1,9 @@
+.headerMain {
+    background-color: var(--bg-white);
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}

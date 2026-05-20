@@ -40,18 +40,21 @@ export type DeckMinAggregateOutputType = {
   id: number | null
   name: string | null
   authorId: number | null
+  description: string | null
 }
 
 export type DeckMaxAggregateOutputType = {
   id: number | null
   name: string | null
   authorId: number | null
+  description: string | null
 }
 
 export type DeckCountAggregateOutputType = {
   id: number
   name: number
   authorId: number
+  description: number
   _all: number
 }
 
@@ -70,18 +73,21 @@ export type DeckMinAggregateInputType = {
   id?: true
   name?: true
   authorId?: true
+  description?: true
 }
 
 export type DeckMaxAggregateInputType = {
   id?: true
   name?: true
   authorId?: true
+  description?: true
 }
 
 export type DeckCountAggregateInputType = {
   id?: true
   name?: true
   authorId?: true
+  description?: true
   _all?: true
 }
 
@@ -175,6 +181,7 @@ export type DeckGroupByOutputType = {
   id: number
   name: string
   authorId: number
+  description: string
   _count: DeckCountAggregateOutputType | null
   _avg: DeckAvgAggregateOutputType | null
   _sum: DeckSumAggregateOutputType | null
@@ -204,6 +211,7 @@ export type DeckWhereInput = {
   id?: Prisma.IntFilter<"Deck"> | number
   name?: Prisma.StringFilter<"Deck"> | string
   authorId?: Prisma.IntFilter<"Deck"> | number
+  description?: Prisma.StringFilter<"Deck"> | string
   cards?: Prisma.CardListRelationFilter
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   favoritedBy?: Prisma.UserListRelationFilter
@@ -213,6 +221,7 @@ export type DeckOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   cards?: Prisma.CardOrderByRelationAggregateInput
   author?: Prisma.UserOrderByWithRelationInput
   favoritedBy?: Prisma.UserOrderByRelationAggregateInput
@@ -220,20 +229,22 @@ export type DeckOrderByWithRelationInput = {
 
 export type DeckWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  name?: string
   AND?: Prisma.DeckWhereInput | Prisma.DeckWhereInput[]
   OR?: Prisma.DeckWhereInput[]
   NOT?: Prisma.DeckWhereInput | Prisma.DeckWhereInput[]
-  name?: Prisma.StringFilter<"Deck"> | string
   authorId?: Prisma.IntFilter<"Deck"> | number
+  description?: Prisma.StringFilter<"Deck"> | string
   cards?: Prisma.CardListRelationFilter
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   favoritedBy?: Prisma.UserListRelationFilter
-}, "id">
+}, "id" | "name">
 
 export type DeckOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   _count?: Prisma.DeckCountOrderByAggregateInput
   _avg?: Prisma.DeckAvgOrderByAggregateInput
   _max?: Prisma.DeckMaxOrderByAggregateInput
@@ -248,10 +259,12 @@ export type DeckScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Deck"> | number
   name?: Prisma.StringWithAggregatesFilter<"Deck"> | string
   authorId?: Prisma.IntWithAggregatesFilter<"Deck"> | number
+  description?: Prisma.StringWithAggregatesFilter<"Deck"> | string
 }
 
 export type DeckCreateInput = {
   name: string
+  description?: string
   cards?: Prisma.CardCreateNestedManyWithoutDeckInput
   author: Prisma.UserCreateNestedOneWithoutAuthoredDecksInput
   favoritedBy?: Prisma.UserCreateNestedManyWithoutFavoritedDecksInput
@@ -261,12 +274,14 @@ export type DeckUncheckedCreateInput = {
   id?: number
   name: string
   authorId: number
+  description?: string
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutDeckInput
   favoritedBy?: Prisma.UserUncheckedCreateNestedManyWithoutFavoritedDecksInput
 }
 
 export type DeckUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   cards?: Prisma.CardUpdateManyWithoutDeckNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutAuthoredDecksNestedInput
   favoritedBy?: Prisma.UserUpdateManyWithoutFavoritedDecksNestedInput
@@ -276,6 +291,7 @@ export type DeckUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   cards?: Prisma.CardUncheckedUpdateManyWithoutDeckNestedInput
   favoritedBy?: Prisma.UserUncheckedUpdateManyWithoutFavoritedDecksNestedInput
 }
@@ -284,16 +300,19 @@ export type DeckCreateManyInput = {
   id?: number
   name: string
   authorId: number
+  description?: string
 }
 
 export type DeckUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DeckUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DeckScalarRelationFilter = {
@@ -305,6 +324,7 @@ export type DeckCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  description?: Prisma.SortOrder
 }
 
 export type DeckAvgOrderByAggregateInput = {
@@ -316,12 +336,14 @@ export type DeckMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  description?: Prisma.SortOrder
 }
 
 export type DeckMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  description?: Prisma.SortOrder
 }
 
 export type DeckSumOrderByAggregateInput = {
@@ -435,6 +457,7 @@ export type DeckUncheckedUpdateManyWithoutFavoritedByNestedInput = {
 
 export type DeckCreateWithoutCardsInput = {
   name: string
+  description?: string
   author: Prisma.UserCreateNestedOneWithoutAuthoredDecksInput
   favoritedBy?: Prisma.UserCreateNestedManyWithoutFavoritedDecksInput
 }
@@ -443,6 +466,7 @@ export type DeckUncheckedCreateWithoutCardsInput = {
   id?: number
   name: string
   authorId: number
+  description?: string
   favoritedBy?: Prisma.UserUncheckedCreateNestedManyWithoutFavoritedDecksInput
 }
 
@@ -464,6 +488,7 @@ export type DeckUpdateToOneWithWhereWithoutCardsInput = {
 
 export type DeckUpdateWithoutCardsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.UserUpdateOneRequiredWithoutAuthoredDecksNestedInput
   favoritedBy?: Prisma.UserUpdateManyWithoutFavoritedDecksNestedInput
 }
@@ -472,11 +497,13 @@ export type DeckUncheckedUpdateWithoutCardsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   favoritedBy?: Prisma.UserUncheckedUpdateManyWithoutFavoritedDecksNestedInput
 }
 
 export type DeckCreateWithoutAuthorInput = {
   name: string
+  description?: string
   cards?: Prisma.CardCreateNestedManyWithoutDeckInput
   favoritedBy?: Prisma.UserCreateNestedManyWithoutFavoritedDecksInput
 }
@@ -484,6 +511,7 @@ export type DeckCreateWithoutAuthorInput = {
 export type DeckUncheckedCreateWithoutAuthorInput = {
   id?: number
   name: string
+  description?: string
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutDeckInput
   favoritedBy?: Prisma.UserUncheckedCreateNestedManyWithoutFavoritedDecksInput
 }
@@ -499,6 +527,7 @@ export type DeckCreateManyAuthorInputEnvelope = {
 
 export type DeckCreateWithoutFavoritedByInput = {
   name: string
+  description?: string
   cards?: Prisma.CardCreateNestedManyWithoutDeckInput
   author: Prisma.UserCreateNestedOneWithoutAuthoredDecksInput
 }
@@ -507,6 +536,7 @@ export type DeckUncheckedCreateWithoutFavoritedByInput = {
   id?: number
   name: string
   authorId: number
+  description?: string
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutDeckInput
 }
 
@@ -538,6 +568,7 @@ export type DeckScalarWhereInput = {
   id?: Prisma.IntFilter<"Deck"> | number
   name?: Prisma.StringFilter<"Deck"> | string
   authorId?: Prisma.IntFilter<"Deck"> | number
+  description?: Prisma.StringFilter<"Deck"> | string
 }
 
 export type DeckUpsertWithWhereUniqueWithoutFavoritedByInput = {
@@ -559,10 +590,12 @@ export type DeckUpdateManyWithWhereWithoutFavoritedByInput = {
 export type DeckCreateManyAuthorInput = {
   id?: number
   name: string
+  description?: string
 }
 
 export type DeckUpdateWithoutAuthorInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   cards?: Prisma.CardUpdateManyWithoutDeckNestedInput
   favoritedBy?: Prisma.UserUpdateManyWithoutFavoritedDecksNestedInput
 }
@@ -570,6 +603,7 @@ export type DeckUpdateWithoutAuthorInput = {
 export type DeckUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   cards?: Prisma.CardUncheckedUpdateManyWithoutDeckNestedInput
   favoritedBy?: Prisma.UserUncheckedUpdateManyWithoutFavoritedDecksNestedInput
 }
@@ -577,10 +611,12 @@ export type DeckUncheckedUpdateWithoutAuthorInput = {
 export type DeckUncheckedUpdateManyWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DeckUpdateWithoutFavoritedByInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   cards?: Prisma.CardUpdateManyWithoutDeckNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutAuthoredDecksNestedInput
 }
@@ -589,6 +625,7 @@ export type DeckUncheckedUpdateWithoutFavoritedByInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   cards?: Prisma.CardUncheckedUpdateManyWithoutDeckNestedInput
 }
 
@@ -596,6 +633,7 @@ export type DeckUncheckedUpdateManyWithoutFavoritedByInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -642,6 +680,7 @@ export type DeckSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   name?: boolean
   authorId?: boolean
+  description?: boolean
   cards?: boolean | Prisma.Deck$cardsArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   favoritedBy?: boolean | Prisma.Deck$favoritedByArgs<ExtArgs>
@@ -652,6 +691,7 @@ export type DeckSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   name?: boolean
   authorId?: boolean
+  description?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["deck"]>
 
@@ -659,6 +699,7 @@ export type DeckSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   name?: boolean
   authorId?: boolean
+  description?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["deck"]>
 
@@ -666,9 +707,10 @@ export type DeckSelectScalar = {
   id?: boolean
   name?: boolean
   authorId?: boolean
+  description?: boolean
 }
 
-export type DeckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "authorId", ExtArgs["result"]["deck"]>
+export type DeckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "authorId" | "description", ExtArgs["result"]["deck"]>
 export type DeckInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cards?: boolean | Prisma.Deck$cardsArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -693,6 +735,7 @@ export type $DeckPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: number
     name: string
     authorId: number
+    description: string
   }, ExtArgs["result"]["deck"]>
   composites: {}
 }
@@ -1122,6 +1165,7 @@ export interface DeckFieldRefs {
   readonly id: Prisma.FieldRef<"Deck", 'Int'>
   readonly name: Prisma.FieldRef<"Deck", 'String'>
   readonly authorId: Prisma.FieldRef<"Deck", 'Int'>
+  readonly description: Prisma.FieldRef<"Deck", 'String'>
 }
     
 

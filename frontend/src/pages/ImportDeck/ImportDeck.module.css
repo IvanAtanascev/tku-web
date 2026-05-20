@@ -1,0 +1,21 @@
+.importForm {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.importForm > textarea {
+    height: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border-style: none;
+  
+  background: var(--bg-white);
+  color: var(--bg-black);
+  border-radius: var(--radius-small);
+  
+  transition: all 0.2s ease;
+  box-sizing: border-box; 
+}

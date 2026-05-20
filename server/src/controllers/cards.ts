@@ -32,18 +32,24 @@ export const createCard = async (
   reply: FastifyReply,
 ) => {
   const { original, translation, description, deckId } = request.body;
-  const user = request.user as { id: number; username: string };
+  const user = request.user as {
+    id: number;
+    username: string;
+    role: "ADMIN" | "USER";
+  };
 
   try {
-    const authorIdCheck = await prisma.deck.findUnique({
-      where: { id: deckId },
-      select: { id: true, authorId: true },
-    });
+    if (user.role !== "ADMIN") {
+      const authorIdCheck = await prisma.deck.findUnique({
+        where: { id: deckId },
+        select: { id: true, authorId: true },
+      });
 
-    if (authorIdCheck === null || authorIdCheck.authorId !== user.id) {
-      return reply
-        .code(403)
-        .send({ error: "you can't add cards to this deck" });
+      if (authorIdCheck === null || authorIdCheck.authorId !== user.id) {
+        return reply
+          .code(403)
+          .send({ error: "you can't add cards to this deck" });
+      }
     }
 
     const newCard = await prisma.card.create({
@@ -108,16 +114,22 @@ export const updateCard = async (
 ) => {
   const { id } = request.params;
   const { original, translation, description } = request.body;
-  const user = request.user as { id: number; username: string };
+  const user = request.user as {
+    id: number;
+    username: string;
+    role: "ADMIN" | "USER";
+  };
 
   try {
-    const authorIdCheck = await prisma.card.findUnique({
-      where: { id: id },
-      select: { id: true, deck: { select: { authorId: true } } },
-    });
+    if (user.role !== "ADMIN") {
+      const authorIdCheck = await prisma.card.findUnique({
+        where: { id: id },
+        select: { id: true, deck: { select: { authorId: true } } },
+      });
 
-    if (authorIdCheck === null || authorIdCheck.deck.authorId !== user.id) {
-      return reply.code(403).send({ error: "you can't change this card" });
+      if (authorIdCheck === null || authorIdCheck.deck.authorId !== user.id) {
+        return reply.code(403).send({ error: "you can't change this card" });
+      }
     }
 
     const updatedCard = await prisma.card.update({

@@ -54,6 +54,7 @@ export const ModelName = {
   Card: 'Card',
   Deck: 'Deck',
   User: 'User',
+  UserSettings: 'UserSettings',
   CardProgress: 'CardProgress'
 } as const
 
@@ -84,7 +85,8 @@ export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof Card
 export const DeckScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  authorId: 'authorId'
+  authorId: 'authorId',
+  description: 'description'
 } as const
 
 export type DeckScalarFieldEnum = (typeof DeckScalarFieldEnum)[keyof typeof DeckScalarFieldEnum]
@@ -98,6 +100,16 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const UserSettingsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  theme: 'theme',
+  uiLang: 'uiLang'
+} as const
+
+export type UserSettingsScalarFieldEnum = (typeof UserSettingsScalarFieldEnum)[keyof typeof UserSettingsScalarFieldEnum]
 
 
 export const CardProgressScalarFieldEnum = {

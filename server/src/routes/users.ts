@@ -3,14 +3,20 @@ import "dotenv/config";
 import {
   createUserSchema,
   deleteUserParamsSchema,
-  getAllUsersQuery,
+  getAllUsersQuerySchema,
   loginSchema,
+  updateUserParamsSchema,
+  updateUserSchema,
+  updateUserSettingsSchema,
 } from "../schemas/user.schemas";
 import type {
   CreateUserBody,
   DeleteUserParams,
   GetAllUsersQuery,
   LoginBody,
+  UpdateUserBody,
+  UpdateUserParams,
+  UpdateUserSettingsBody,
 } from "../schemas/user.schemas";
 import {
   createDevAdmin,
@@ -20,6 +26,9 @@ import {
   login,
   logout,
   getMe,
+  updateUserRole,
+  updateUserSettings,
+  getUserSettings,
 } from "../controllers/users";
 
 const userRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
@@ -31,7 +40,7 @@ const userRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
     "/",
     {
       preHandler: [fastify.requireAdmin],
-      schema: { querystring: getAllUsersQuery },
+      schema: { querystring: getAllUsersQuerySchema },
     },
     getAllUsers,
   );
@@ -57,9 +66,33 @@ const userRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
     login,
   );
 
-  fastify.post("/logout", logout);
+  fastify.post("/logout", { preHandler: [fastify.authenticate] }, logout);
 
   fastify.get("/me", { preHandler: [fastify.authenticate] }, getMe);
+
+  fastify.patch<{ Body: UpdateUserBody; Params: UpdateUserParams }>(
+    "/:id",
+    {
+      preHandler: [fastify.requireAdmin],
+      schema: { body: updateUserSchema, params: updateUserParamsSchema },
+    },
+    updateUserRole,
+  );
+
+  fastify.patch<{ Body: UpdateUserSettingsBody }>(
+    "/settings",
+    {
+      preHandler: [fastify.authenticate],
+      schema: { body: updateUserSettingsSchema },
+    },
+    updateUserSettings,
+  );
+
+  fastify.get(
+    "/settings",
+    { preHandler: [fastify.authenticate] },
+    getUserSettings,
+  );
 };
 
 export default userRoutes;

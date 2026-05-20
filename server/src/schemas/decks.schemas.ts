@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const createDeckSchema = z.object({
   name: z.string().min(1).max(40),
+  description: z.string().min(1),
 });
 
 export const getDeckCardsParamsSchema = z.object({
@@ -29,6 +30,10 @@ export const deckSearchQuerySchema = paginationQuerySchema.extend({
   }, z.boolean()),
 });
 
+export const importDeckSchema = z.object({
+  importString: z.string().min(1),
+});
+
 export const deckCardsSearchQuerySchema = paginationQuerySchema.extend({
   queryOriginal: z.string().min(1).max(80).optional(),
   queryTranslation: z.string().min(1).max(80).optional(),
@@ -43,3 +48,4 @@ export type PaginationQuery = z.infer<typeof paginationQuerySchema>;
 export type DeleteDeckParams = z.infer<typeof deleteDeckParamsSchema>;
 export type DeckSearchQuery = z.infer<typeof deckSearchQuerySchema>;
 export type DeckCardsSearchQuery = z.infer<typeof deckCardsSearchQuerySchema>;
+export type ImportDeckBody = z.infer<typeof importDeckSchema>;

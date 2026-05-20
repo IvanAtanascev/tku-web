@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import type { Card } from "../types/Card";
+import type { Card } from "@/types/Card";
+import { useConfirm } from "@/components/ConfirmContext";
 
 export default function useGameLoop(deckId: string | undefined) {
   const [cards, setCards] = useState<Card[]>([]);
@@ -7,6 +8,9 @@ export default function useGameLoop(deckId: string | undefined) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userInput, setUserInput] = useState("");
+  const [studyMoreTrigger, setStudyMoreTrigger] = useState<boolean>(false);
+
+  const confirm = useConfirm();
 
   const handleReviewLogic = async (difficulty: string, card: Card) => {
     try {
@@ -28,7 +32,13 @@ export default function useGameLoop(deckId: string | undefined) {
       if (currentIndex < cards.length - 1) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        alert("you finished the deck!");
+        const isConfirmed = await confirm(
+          "You have finished this study session. Study more?",
+        );
+
+        if (isConfirmed) {
+          setStudyMoreTrigger(!studyMoreTrigger);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -65,36 +75,9 @@ export default function useGameLoop(deckId: string | undefined) {
     if (deckId) {
       fetchCards();
     }
-  }, [deckId]);
+  }, [deckId, studyMoreTrigger]);
 
   const currentCard = cards[currentIndex];
-
-  useEffect(() => {
-    if (!currentCard) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Backspace") {
-        setUserInput((prev) => prev.slice(0, -1));
-        return;
-      }
-
-      if (e.key.length === 1 && e.key.match(/[\p{L}\p{N}\s]/u)) {
-        setUserInput((prev) => {
-          if (prev.length < currentCard.original.length) {
-            return prev + e.key;
-          }
-
-          return prev;
-        });
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [currentCard]);
 
   return {
     cards,
@@ -104,6 +87,7 @@ export default function useGameLoop(deckId: string | undefined) {
     setIsFlipped,
     isLoading,
     userInput,
+    setUserInput,
     handleReviewLogic,
   };
 }

@@ -22,11 +22,12 @@ model Card {
 
 model Deck {
   id          Int    @id @default(autoincrement())
-  name        String
+  name        String @unique
   cards       Card[]
   authorId    Int
   author      User   @relation("AuthoredDecks", fields: [authorId], references: [id])
   favoritedBy User[] @relation("FavoritedDecks")
+  description String @default("Deck description")
 }
 
 model User {
@@ -37,6 +38,15 @@ model User {
   favoritedDecks Deck[]         @relation("FavoritedDecks")
   password       String
   cardProgresses CardProgress[]
+  settings       UserSettings?
+}
+
+model UserSettings {
+  id     Int    @id @default(autoincrement())
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  theme  String @default("light")
+  uiLang String @default("english")
 }
 
 model CardProgress {

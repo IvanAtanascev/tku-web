@@ -1,127 +1,98 @@
+@font-face{
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face{
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-Italic.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
 :root {
-  /* Soft, warm off-white foundation */
-  --bg: #fafaf9;
-  --text: #57534e;
-  --text-h: #1c1917;
-  --border: #e7e5e4;
-  --code-bg: #f5f5f4;
-  
-  /* Modern, slightly muted violet accent */
-  --accent: #8b5cf6;
-  --accent-bg: rgba(139, 92, 246, 0.1);
-  --accent-border: rgba(139, 92, 246, 0.3);
-  --social-bg: rgba(245, 245, 244, 0.6);
-  
-  /* Ultra-smooth, elegant modern shadow */
-  --shadow: 
-    rgba(28, 25, 23, 0.04) 0 10px 15px -3px, 
-    rgba(28, 25, 23, 0.02) 0 4px 6px -2px;
+    --bg-desk: #efeeee;
+    --bg-white: #ffffff;
+    --bg-black: #000000;
+    --text-color: #2d3930;
+    --main-color: #c6d2d0;
+    --mainish-color: #9dc6b9;
+    --other-color: #5e817e;
+    --intense-color: #072e0d;
+    --bg-paper: #c6d1ce;
+    --radius-small: 0.5rem;
+    --radius-mid: 0.75rem;
+    --radius-big: 1rem;
 
-  /* Modern typography stack */
-  --sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --heading: 'Inter', system-ui, -apple-system, sans-serif;
-  --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, Consolas, monospace;
+    --shadow: 
+        rgba(33, 29, 54, 0.04) 0 10px 15px -3px, 
+        rgba(33, 29, 54, 0.02) 0 4px 6px -2px;
 
-  font: 18px/1.5 var(--sans);
-  letter-spacing: 0.01em;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --heading: 'Inter', system-ui, -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, Consolas, monospace;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
+    font: 18px/1.5 var(--sans);
+    letter-spacing: 0.01em;
+    color-scheme: light; 
+    color: var(--bg-black);
+    background: var(--bg-desk);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Deep warm-gray for dark mode (avoids harsh pure black) */
-    --bg: #1c1917;
-    --text: #a8a29e;
-    --text-h: #f5f5f4;
-    --border: #292524;
-    --code-bg: #292524;
-    
-    --accent: #a78bfa;
-    --accent-bg: rgba(167, 139, 250, 0.15);
-    --accent-border: rgba(167, 139, 250, 0.4);
-    --social-bg: rgba(41, 37, 36, 0.5);
-    
-    --shadow:
-      rgba(0, 0, 0, 0.3) 0 10px 15px -3px, 
-      rgba(0, 0, 0, 0.15) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+    @media (max-width: 900px) {
+        font-size: 8px;
+    }
 }
 
 body {
   margin: 0;
+  background-color: var(--bg-white); 
+}
+
+#root {
+  margin: 0 auto;
+    overflow-y: hidden;
+  text-align: center;
+  border-inline: 1px solid var(--border-light);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  background-color: var(--bg-desk); /* Make the main content area white */
+  box-shadow: var(--shadow);
+    max-height: 100vh;
 }
 
 h1,
 h2 {
-  font-family: var(--heading);
-  font-weight: 600; /* Slightly bolder for modern contrast */
-  color: var(--text-h);
+  font-weight: 600; 
+  color: var(--bg-black);
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -0.03em; /* Tighter tracking on huge text is very modern */
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+  font-size: 2.5rem;
+  letter-spacing: -0.03em; 
+  margin: 2rempx 0;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 1.75rem;
   line-height: 1.2;
   letter-spacing: -0.01em;
   margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+  @media (max-width: 900px) {
+    font-size: 1.2rem;
   }
 }
 
 p {
   margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 6px; /* Slightly rounder code blocks */
-  color: var(--text-h);
-}
-
-code {
-  font-size: 14px; /* Dropped slightly so it doesn't overpower inline text */
-  line-height: 1.4;
-  padding: 4px 8px;
-  background: var(--code-bg);
-  border: 1px solid var(--border); /* Added subtle border to code tags */
+  color: var(--text-color);
 }
 
 
@@ -130,55 +101,116 @@ button {
   outline: none;
   cursor: pointer;
   font-size: 1rem;
-  line-height: 20px;
+  line-height: 1.2rem;
   font-weight: 600;
-  border-radius: 8px;
-  padding: 13px 23px;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
   transition: all 0.2s ease;
   
-  /* 🌙 The Magic: Using your theme variables! */
-  background: var(--bg);
-  color: var(--text-h);
-  border: 1px solid var(--border);
+  /* Solid Periwinkle Buttons */
+  background: var(--mainish-color);
+  color: white;
+  border: 0px;
 }
 
 button:hover {
   transform: translateY(-4px);
-  border-color: var(--accent-border);
-  box-shadow: 0 12px 20px -8px var(--accent-bg);
+  background: var(--intense-color);
 }
 
-/* pro-tip: add an active state so it physically clicks down! */
 button:active {
   transform: scale(0.96);
 }
 
 input {
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   font-size: 1rem;
-  font-family: var(--sans); /* Match the app font */
+  border-style: none;
   
-  /* Input theme styling */
-  background: transparent;
-  color: var(--text-h);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  background: var(--bg-white);
+  color: var(--bg-black);
+  border-radius: var(--radius-small);
   
-  /* Smooth transition for when the user clicks it */
   transition: all 0.2s ease;
-  box-sizing: border-box; /* Ensures padding doesn't break the width */
+  box-sizing: border-box; 
+}
+
+select {
+    padding: 12px 16px;
+    font-size: 1rem;
+    font-family: var(--sans); 
+    border-style: none;
+  
+    background: var(--bg-white);
+    color: var(--bg-black);
+    border-radius: var(--radius-small);
+    
+    transition: all 0.2s ease;
+    box-sizing: border-box; 
 }
 
 input:focus {
   outline: none;
-  /* Use your purple accent for the active state */
-  border-color: var(--accent); 
-  /* Add a subtle glowing ring around the input using your accent background variable */
-  box-shadow: 0 0 0 4px var(--accent-bg); 
+  box-shadow: 0 0 0 4px var(--brand-muted); /* Soft periwinkle glow */
 }
 
-/* Make sure the placeholder text looks good in dark mode too */
 input::placeholder {
-  color: var(--text);
+  color: var(--text-secondary);
   opacity: 0.6;
+}
+
+.pillow {
+    padding: 2rem;
+    background-color: var(--bg-paper);
+    border-radius: var(--radius-mid);
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.pillow > input {
+    width: 100%;
+}
+
+.content-container {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.rest-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.pageContainer {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    height: calc(100vh - 5rem);
+    overflow-y: auto;
+    align-items: center;
+    flex-direction: column;
+}
+
+.pageContainer > *{
+    max-width: 1000px; 
+    width: auto;
+    @media (max-width: 900px) {
+        max-width: 700px;
+    }
+}
+
+table {
+    
+    background-color: var(--bg-white);
+    border-radius: var(--radius-mid);
+}
+
+thead {
+    background-color: var(--other-color);
+}
+
+.loading-div {
+    padding: 1rem;
 }

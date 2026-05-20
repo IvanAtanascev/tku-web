@@ -1,0 +1,83 @@
+.navigationContainer {
+    display: flex; 
+    flex-direction: column;
+    justify-content: start;
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--main-color);
+    margin: 0;
+    transition: 0.2s;
+}
+
+.navButton {
+    padding: 1rem 1rem;
+    width: 100%;
+    font-size: 1.25rem;
+    margin: 0;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    text-decoration: none;
+    justify-content: space-between;
+
+}
+
+.navButton > p {
+    text-decoration: none
+}
+
+svg {
+    padding: 0;
+    margin: 0;
+}
+
+
+.navButton:hover {
+    color: var(--bg-paper);
+    transition: 0.5s;
+    transform: none;
+}
+
+.navigationContainer.expanded { width: 350px;
+
+    @media (max-width: 900px) {
+        width: 200px;
+    }
+}
+.navigationContainer.collapsed {
+    width: 70px;
+
+    @media (max-width: 900px) {
+        width: 30px;
+    }
+}
+
+.navButton.expanded {
+    
+}
+.navButton.collapsed {
+}
+
+
+.menuIcon{
+    height: 1.7rem;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.menuText {
+    opacity: 1;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    min-height: 1.75rem;
+    transition: all 0.5s ease;
+}
+
+.menuText.collapsed {
+    opacity: 0;
+    max-width: 0px;
+    visibility: hidden;
+}

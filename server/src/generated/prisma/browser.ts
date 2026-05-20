@@ -33,6 +33,11 @@ export type Deck = Prisma.DeckModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model UserSettings
+ * 
+ */
+export type UserSettings = Prisma.UserSettingsModel
+/**
  * Model CardProgress
  * 
  */

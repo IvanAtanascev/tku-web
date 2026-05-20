@@ -1,0 +1,31 @@
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.pageIndicator {
+  font-family: var(--sans);
+  background: var(--main-color);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.pageButton {
+  font-family: var(--sans);
+  background: var(--bg-paper);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+    color: var(--bg-black);
+}
+
+.pageButton:hover{
+    color: var(--bg-white);
+}

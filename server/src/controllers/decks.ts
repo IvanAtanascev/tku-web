@@ -10,8 +10,10 @@ import type {
   DeleteDeckParams,
   DeckSearchQuery,
   DeckCardsSearchQuery,
+  ImportDeckBody,
 } from "../schemas/decks.schemas";
 import type { Prisma } from "../generated/prisma/client";
+import parseCsvToDeck from "../lib/utils/csvImport";
 
 export const getAllDecks = async (
   request: FastifyRequest<{ Querystring: PaginationQuery }>,
@@ -192,13 +194,14 @@ export const createDeck = async (
   request: FastifyRequest<{ Body: CreateDeckBody }>,
   reply: FastifyReply,
 ) => {
-  const { name } = request.body;
+  const { name, description } = request.body;
   const user = request.user as { id: number; username: string };
 
   try {
     const newDeck = await prisma.deck.create({
       data: {
         name,
+        description,
         authorId: user.id,
         favoritedBy: { connect: { id: user.id } },
       },
@@ -320,13 +323,6 @@ export const searchDeck = async (
     ],
   };
 
-  if (favorite === true) {
-    console.log("true\n");
-  } else if (favorite === false) {
-    console.log("false\n");
-  } else {
-    console.log("not false\n");
-  }
   try {
     const [foundDecks, totalDecks] = await prisma.$transaction([
       prisma.deck.findMany({
@@ -358,5 +354,35 @@ export const searchDeck = async (
     return reply
       .code(500)
       .send({ error: `failed searching deck error: ${error}` });
+  }
+};
+
+export const importCsv = async (
+  request: FastifyRequest<{ Body: ImportDeckBody }>,
+  reply: FastifyReply,
+) => {
+  const { importString } = request.body;
+
+  try {
+    const processedData = parseCsvToDeck(importString);
+
+    const newDeck = await prisma.deck.create({
+      data: {
+        name: processedData.name,
+        description: processedData.description,
+        authorId: request.user.id,
+        cards: {
+          create: processedData.cards,
+        },
+        favoritedBy: { connect: { id: request.user.id } },
+      },
+    });
+
+    return reply
+      .code(201)
+      .send({ message: "Deck imported succesfully", deckId: newDeck.id });
+  } catch (error) {
+    request.log.error(error);
+    return reply.code(500).send({ error: `failed parsing csv: ${error}` });
   }
 };

@@ -211,6 +211,7 @@ export type UserWhereInput = {
   authoredDecks?: Prisma.DeckListRelationFilter
   favoritedDecks?: Prisma.DeckListRelationFilter
   cardProgresses?: Prisma.CardProgressListRelationFilter
+  settings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -221,6 +222,7 @@ export type UserOrderByWithRelationInput = {
   authoredDecks?: Prisma.DeckOrderByRelationAggregateInput
   favoritedDecks?: Prisma.DeckOrderByRelationAggregateInput
   cardProgresses?: Prisma.CardProgressOrderByRelationAggregateInput
+  settings?: Prisma.UserSettingsOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -234,6 +236,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   authoredDecks?: Prisma.DeckListRelationFilter
   favoritedDecks?: Prisma.DeckListRelationFilter
   cardProgresses?: Prisma.CardProgressListRelationFilter
+  settings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
 }, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -265,6 +268,7 @@ export type UserCreateInput = {
   authoredDecks?: Prisma.DeckCreateNestedManyWithoutAuthorInput
   favoritedDecks?: Prisma.DeckCreateNestedManyWithoutFavoritedByInput
   cardProgresses?: Prisma.CardProgressCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -275,6 +279,7 @@ export type UserUncheckedCreateInput = {
   authoredDecks?: Prisma.DeckUncheckedCreateNestedManyWithoutAuthorInput
   favoritedDecks?: Prisma.DeckUncheckedCreateNestedManyWithoutFavoritedByInput
   cardProgresses?: Prisma.CardProgressUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -284,6 +289,7 @@ export type UserUpdateInput = {
   authoredDecks?: Prisma.DeckUpdateManyWithoutAuthorNestedInput
   favoritedDecks?: Prisma.DeckUpdateManyWithoutFavoritedByNestedInput
   cardProgresses?: Prisma.CardProgressUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -294,6 +300,7 @@ export type UserUncheckedUpdateInput = {
   authoredDecks?: Prisma.DeckUncheckedUpdateManyWithoutAuthorNestedInput
   favoritedDecks?: Prisma.DeckUncheckedUpdateManyWithoutFavoritedByNestedInput
   cardProgresses?: Prisma.CardProgressUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -412,6 +419,20 @@ export type UserUncheckedUpdateManyWithoutFavoritedDecksNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
+export type UserCreateNestedOneWithoutSettingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSettingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSettingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSettingsInput
+  upsert?: Prisma.UserUpsertWithoutSettingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSettingsInput, Prisma.UserUpdateWithoutSettingsInput>, Prisma.UserUncheckedUpdateWithoutSettingsInput>
+}
+
 export type UserCreateNestedOneWithoutCardProgressesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCardProgressesInput, Prisma.UserUncheckedCreateWithoutCardProgressesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardProgressesInput
@@ -432,6 +453,7 @@ export type UserCreateWithoutAuthoredDecksInput = {
   password: string
   favoritedDecks?: Prisma.DeckCreateNestedManyWithoutFavoritedByInput
   cardProgresses?: Prisma.CardProgressCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuthoredDecksInput = {
@@ -441,6 +463,7 @@ export type UserUncheckedCreateWithoutAuthoredDecksInput = {
   password: string
   favoritedDecks?: Prisma.DeckUncheckedCreateNestedManyWithoutFavoritedByInput
   cardProgresses?: Prisma.CardProgressUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuthoredDecksInput = {
@@ -454,6 +477,7 @@ export type UserCreateWithoutFavoritedDecksInput = {
   password: string
   authoredDecks?: Prisma.DeckCreateNestedManyWithoutAuthorInput
   cardProgresses?: Prisma.CardProgressCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFavoritedDecksInput = {
@@ -463,6 +487,7 @@ export type UserUncheckedCreateWithoutFavoritedDecksInput = {
   password: string
   authoredDecks?: Prisma.DeckUncheckedCreateNestedManyWithoutAuthorInput
   cardProgresses?: Prisma.CardProgressUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFavoritedDecksInput = {
@@ -487,6 +512,7 @@ export type UserUpdateWithoutAuthoredDecksInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   favoritedDecks?: Prisma.DeckUpdateManyWithoutFavoritedByNestedInput
   cardProgresses?: Prisma.CardProgressUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuthoredDecksInput = {
@@ -496,6 +522,7 @@ export type UserUncheckedUpdateWithoutAuthoredDecksInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   favoritedDecks?: Prisma.DeckUncheckedUpdateManyWithoutFavoritedByNestedInput
   cardProgresses?: Prisma.CardProgressUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutFavoritedDecksInput = {
@@ -524,12 +551,67 @@ export type UserScalarWhereInput = {
   password?: Prisma.StringFilter<"User"> | string
 }
 
+export type UserCreateWithoutSettingsInput = {
+  username: string
+  role?: string
+  password: string
+  authoredDecks?: Prisma.DeckCreateNestedManyWithoutAuthorInput
+  favoritedDecks?: Prisma.DeckCreateNestedManyWithoutFavoritedByInput
+  cardProgresses?: Prisma.CardProgressCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSettingsInput = {
+  id?: number
+  username: string
+  role?: string
+  password: string
+  authoredDecks?: Prisma.DeckUncheckedCreateNestedManyWithoutAuthorInput
+  favoritedDecks?: Prisma.DeckUncheckedCreateNestedManyWithoutFavoritedByInput
+  cardProgresses?: Prisma.CardProgressUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSettingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
+}
+
+export type UserUpsertWithoutSettingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSettingsInput, Prisma.UserUncheckedUpdateWithoutSettingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSettingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSettingsInput, Prisma.UserUncheckedUpdateWithoutSettingsInput>
+}
+
+export type UserUpdateWithoutSettingsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  authoredDecks?: Prisma.DeckUpdateManyWithoutAuthorNestedInput
+  favoritedDecks?: Prisma.DeckUpdateManyWithoutFavoritedByNestedInput
+  cardProgresses?: Prisma.CardProgressUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSettingsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  authoredDecks?: Prisma.DeckUncheckedUpdateManyWithoutAuthorNestedInput
+  favoritedDecks?: Prisma.DeckUncheckedUpdateManyWithoutFavoritedByNestedInput
+  cardProgresses?: Prisma.CardProgressUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutCardProgressesInput = {
   username: string
   role?: string
   password: string
   authoredDecks?: Prisma.DeckCreateNestedManyWithoutAuthorInput
   favoritedDecks?: Prisma.DeckCreateNestedManyWithoutFavoritedByInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCardProgressesInput = {
@@ -539,6 +621,7 @@ export type UserUncheckedCreateWithoutCardProgressesInput = {
   password: string
   authoredDecks?: Prisma.DeckUncheckedCreateNestedManyWithoutAuthorInput
   favoritedDecks?: Prisma.DeckUncheckedCreateNestedManyWithoutFavoritedByInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCardProgressesInput = {
@@ -563,6 +646,7 @@ export type UserUpdateWithoutCardProgressesInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   authoredDecks?: Prisma.DeckUpdateManyWithoutAuthorNestedInput
   favoritedDecks?: Prisma.DeckUpdateManyWithoutFavoritedByNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCardProgressesInput = {
@@ -572,6 +656,7 @@ export type UserUncheckedUpdateWithoutCardProgressesInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   authoredDecks?: Prisma.DeckUncheckedUpdateManyWithoutAuthorNestedInput
   favoritedDecks?: Prisma.DeckUncheckedUpdateManyWithoutFavoritedByNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUpdateWithoutFavoritedDecksInput = {
@@ -580,6 +665,7 @@ export type UserUpdateWithoutFavoritedDecksInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   authoredDecks?: Prisma.DeckUpdateManyWithoutAuthorNestedInput
   cardProgresses?: Prisma.CardProgressUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFavoritedDecksInput = {
@@ -589,6 +675,7 @@ export type UserUncheckedUpdateWithoutFavoritedDecksInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   authoredDecks?: Prisma.DeckUncheckedUpdateManyWithoutAuthorNestedInput
   cardProgresses?: Prisma.CardProgressUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutFavoritedDecksInput = {
@@ -655,6 +742,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   authoredDecks?: boolean | Prisma.User$authoredDecksArgs<ExtArgs>
   favoritedDecks?: boolean | Prisma.User$favoritedDecksArgs<ExtArgs>
   cardProgresses?: boolean | Prisma.User$cardProgressesArgs<ExtArgs>
+  settings?: boolean | Prisma.User$settingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -684,6 +772,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   authoredDecks?: boolean | Prisma.User$authoredDecksArgs<ExtArgs>
   favoritedDecks?: boolean | Prisma.User$favoritedDecksArgs<ExtArgs>
   cardProgresses?: boolean | Prisma.User$cardProgressesArgs<ExtArgs>
+  settings?: boolean | Prisma.User$settingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -695,6 +784,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     authoredDecks: Prisma.$DeckPayload<ExtArgs>[]
     favoritedDecks: Prisma.$DeckPayload<ExtArgs>[]
     cardProgresses: Prisma.$CardProgressPayload<ExtArgs>[]
+    settings: Prisma.$UserSettingsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1098,6 +1188,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   authoredDecks<T extends Prisma.User$authoredDecksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authoredDecksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favoritedDecks<T extends Prisma.User$favoritedDecksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoritedDecksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cardProgresses<T extends Prisma.User$cardProgressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cardProgressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  settings<T extends Prisma.User$settingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$settingsArgs<ExtArgs>>): Prisma.Prisma__UserSettingsClient<runtime.Types.Result.GetResult<Prisma.$UserSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1586,6 +1677,25 @@ export type User$cardProgressesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.CardProgressScalarFieldEnum | Prisma.CardProgressScalarFieldEnum[]
+}
+
+/**
+ * User.settings
+ */
+export type User$settingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserSettings
+   */
+  select?: Prisma.UserSettingsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserSettings
+   */
+  omit?: Prisma.UserSettingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserSettingsInclude<ExtArgs> | null
+  where?: Prisma.UserSettingsWhereInput
 }
 
 /**

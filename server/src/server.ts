@@ -1,6 +1,10 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
+import rateLimit from "@fastify/rate-limit";
+import {
+  serializerCompiler,
+  validatorCompiler,
+} from "fastify-type-provider-zod";
 import "dotenv/config";
 
 import authPlugin from "./plugins/auth";
@@ -16,10 +20,23 @@ const fastify = Fastify({
 fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler);
 
+fastify.register(rateLimit, {
+  max: 300,
+  timeWindow: "1 minute",
+  errorResponseBuilder: function (request, context) {
+    return {
+      statusCode: 429,
+      error: "Too Many Requests",
+      message: "You've hit the rate limit. Please wait before trying again.",
+    };
+  },
+});
+
 fastify.register(cors, {
-  origin: process.env.NODE_ENV === "production" 
-    ? process.env.CORS_DOMAIN 
-    : "http://localost:5173",
+  origin:
+    process.env.NODE_ENV === "production"
+      ? process.env.CORS_DOMAIN
+      : "http://localost:5173",
   credentials: true,
 });
 

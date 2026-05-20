@@ -11,6 +11,7 @@ import {
   deleteDeckParamsSchema,
   deckSearchQuerySchema,
   deckCardsSearchQuerySchema,
+  importDeckSchema,
 } from "../schemas/decks.schemas";
 
 import type {
@@ -22,9 +23,9 @@ import type {
   DeleteDeckParams,
   DeckSearchQuery,
   DeckCardsSearchQuery,
+  ImportDeckBody,
 } from "../schemas/decks.schemas";
 
-// 2. Import your newly separated controllers
 import {
   getAllDecks,
   getFavoriteDecks,
@@ -35,7 +36,9 @@ import {
   unfavoriteDeck,
   deleteDeck,
   searchDeck,
+  importCsv,
 } from "../controllers/decks";
+import parseCsvToDeck from "../lib/utils/csvImport";
 
 const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
   fastify.get<{ Querystring: PaginationQuery }>(
@@ -45,15 +48,6 @@ const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
       schema: { querystring: paginationQuerySchema },
     },
     getAllDecks,
-  );
-
-  fastify.get<{ Querystring: PaginationQuery }>(
-    "/favorites",
-    {
-      preHandler: [fastify.authenticate],
-      schema: { querystring: paginationQuerySchema },
-    },
-    getFavoriteDecks,
   );
 
   fastify.get<{
@@ -123,6 +117,15 @@ const deckRoutes: FastifyPluginAsyncZod = async (fastify, options) => {
       schema: { querystring: deckSearchQuerySchema },
     },
     searchDeck,
+  );
+
+  fastify.post<{ Body: ImportDeckBody }>(
+    "/import",
+    {
+      preHandler: [fastify.authenticate],
+      schema: { body: importDeckSchema },
+    },
+    importCsv,
   );
 };
 

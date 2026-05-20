@@ -1,0 +1,14 @@
+.createCardDiv {
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: var(--main-color);
+    border-radius: var(--radius-mid);
+}
+
+.createCardForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

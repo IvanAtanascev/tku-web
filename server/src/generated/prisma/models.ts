@@ -11,5 +11,6 @@
 export type * from './models/Card.ts'
 export type * from './models/Deck.ts'
 export type * from './models/User.ts'
+export type * from './models/UserSettings.ts'
 export type * from './models/CardProgress.ts'
 export type * from './commonInputTypes.ts'

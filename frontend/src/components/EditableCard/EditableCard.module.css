@@ -1,0 +1,101 @@
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  font-size: 2.5rem;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; 
+}
+
+.editorCard {
+  background: var(--bg-paper);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease;
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.fieldGroup {
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+}
+
+.label {
+  min-width: 6rem; 
+  text-align: left;
+  font-weight: 600;
+  color: var(--bg-desk);
+    background-color: var(--intense-color);
+  font-size: 0.9rem;
+    border-radius: var(--radius-small);
+    padding: 0.5rem 0.75rem;
+}
+
+.currentValue {
+    flex: 1;
+    background: var(--bg-desk);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-small);
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.currentValueDesc {
+    height: 12rem;
+    text-wrap: none;
+}
+
+.input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-family: var(--sans);
+  border-style: none;
+  background: var(--bg-white);
+  border-radius: var(--radius-small);
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.descInput {
+    flex: 1; 
+    height: 12rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end; /* Pushes buttons to the right */
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.deleteBtn {
+  background: var(--bg-white);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.deleteBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+

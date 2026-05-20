@@ -1,0 +1,23 @@
+.registerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.registerFields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--bg-paper);
+    padding: 2rem;
+    border-radius: var(--radius-mid);
+}
+
+.cto {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--bg-white);
+    padding: 2rem;
+    border-radius: var(--radius-mid);
+}
