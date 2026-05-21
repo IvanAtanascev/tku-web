@@ -189,7 +189,7 @@ export type DeckGroupByOutputType = {
   _max: DeckMaxAggregateOutputType | null
 }
 
-type GetDeckGroupByPayload<T extends DeckGroupByArgs> = Prisma.PrismaPromise<
+export type GetDeckGroupByPayload<T extends DeckGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<DeckGroupByOutputType, T['by']> &
       {
@@ -523,6 +523,7 @@ export type DeckCreateOrConnectWithoutAuthorInput = {
 
 export type DeckCreateManyAuthorInputEnvelope = {
   data: Prisma.DeckCreateManyAuthorInput | Prisma.DeckCreateManyAuthorInput[]
+  skipDuplicates?: boolean
 }
 
 export type DeckCreateWithoutFavoritedByInput = {
@@ -1362,6 +1363,11 @@ export type DeckFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Skip the first `n` Decks.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Decks.
+   */
   distinct?: Prisma.DeckScalarFieldEnum | Prisma.DeckScalarFieldEnum[]
 }
 
@@ -1395,6 +1401,7 @@ export type DeckCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * The data used to create many Decks.
    */
   data: Prisma.DeckCreateManyInput | Prisma.DeckCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1413,6 +1420,7 @@ export type DeckCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many Decks.
    */
   data: Prisma.DeckCreateManyInput | Prisma.DeckCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

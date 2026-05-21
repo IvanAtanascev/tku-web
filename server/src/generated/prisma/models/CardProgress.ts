@@ -226,7 +226,7 @@ export type CardProgressGroupByOutputType = {
   _max: CardProgressMaxAggregateOutputType | null
 }
 
-type GetCardProgressGroupByPayload<T extends CardProgressGroupByArgs> = Prisma.PrismaPromise<
+export type GetCardProgressGroupByPayload<T extends CardProgressGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CardProgressGroupByOutputType, T['by']> &
       {
@@ -560,6 +560,7 @@ export type CardProgressCreateOrConnectWithoutCardInput = {
 
 export type CardProgressCreateManyCardInputEnvelope = {
   data: Prisma.CardProgressCreateManyCardInput | Prisma.CardProgressCreateManyCardInput[]
+  skipDuplicates?: boolean
 }
 
 export type CardProgressUpsertWithWhereUniqueWithoutCardInput = {
@@ -615,6 +616,7 @@ export type CardProgressCreateOrConnectWithoutUserInput = {
 
 export type CardProgressCreateManyUserInputEnvelope = {
   data: Prisma.CardProgressCreateManyUserInput | Prisma.CardProgressCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type CardProgressUpsertWithWhereUniqueWithoutUserInput = {
@@ -1407,6 +1409,11 @@ export type CardProgressFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` CardProgresses.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of CardProgresses.
+   */
   distinct?: Prisma.CardProgressScalarFieldEnum | Prisma.CardProgressScalarFieldEnum[]
 }
 
@@ -1440,6 +1447,7 @@ export type CardProgressCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
    * The data used to create many CardProgresses.
    */
   data: Prisma.CardProgressCreateManyInput | Prisma.CardProgressCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1458,6 +1466,7 @@ export type CardProgressCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * The data used to create many CardProgresses.
    */
   data: Prisma.CardProgressCreateManyInput | Prisma.CardProgressCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

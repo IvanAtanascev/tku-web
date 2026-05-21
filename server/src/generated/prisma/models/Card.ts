@@ -196,7 +196,7 @@ export type CardGroupByOutputType = {
   _max: CardMaxAggregateOutputType | null
 }
 
-type GetCardGroupByPayload<T extends CardGroupByArgs> = Prisma.PrismaPromise<
+export type GetCardGroupByPayload<T extends CardGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CardGroupByOutputType, T['by']> &
       {
@@ -466,6 +466,7 @@ export type CardCreateOrConnectWithoutDeckInput = {
 
 export type CardCreateManyDeckInputEnvelope = {
   data: Prisma.CardCreateManyDeckInput | Prisma.CardCreateManyDeckInput[]
+  skipDuplicates?: boolean
 }
 
 export type CardUpsertWithWhereUniqueWithoutDeckInput = {
@@ -1289,6 +1290,11 @@ export type CardFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Skip the first `n` Cards.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Cards.
+   */
   distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
 }
 
@@ -1322,6 +1328,7 @@ export type CardCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * The data used to create many Cards.
    */
   data: Prisma.CardCreateManyInput | Prisma.CardCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1340,6 +1347,7 @@ export type CardCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many Cards.
    */
   data: Prisma.CardCreateManyInput | Prisma.CardCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

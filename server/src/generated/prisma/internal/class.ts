@@ -17,10 +17,10 @@ import type * as Prisma from "./prismaNamespace.ts"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.4.1",
-  "engineVersion": "55ae170b1ced7fc6ed07a15f110549408c501bb3",
-  "activeProvider": "sqlite",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel Card {\n  id          Int            @id @default(autoincrement())\n  original    String\n  translation String\n  description String\n  deck        Deck           @relation(fields: [deckId], references: [id], onDelete: Cascade)\n  deckId      Int\n  progresses  CardProgress[]\n}\n\nmodel Deck {\n  id          Int    @id @default(autoincrement())\n  name        String @unique\n  cards       Card[]\n  authorId    Int\n  author      User   @relation(\"AuthoredDecks\", fields: [authorId], references: [id])\n  favoritedBy User[] @relation(\"FavoritedDecks\")\n  description String @default(\"Deck description\")\n}\n\nmodel User {\n  id             Int            @id @default(autoincrement())\n  username       String         @unique\n  role           String         @default(\"USER\")\n  authoredDecks  Deck[]         @relation(\"AuthoredDecks\")\n  favoritedDecks Deck[]         @relation(\"FavoritedDecks\")\n  password       String\n  cardProgresses CardProgress[]\n  settings       UserSettings?\n}\n\nmodel UserSettings {\n  id     Int    @id @default(autoincrement())\n  userId Int    @unique\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n  theme  String @default(\"light\")\n  uiLang String @default(\"english\")\n}\n\nmodel CardProgress {\n  id             Int      @id @default(autoincrement())\n  nextReviewDate DateTime @default(now())\n  interval       Int      @default(0)\n  easeFactor     Float    @default(2.5)\n  repetitions    Int      @default(0)\n  userId         Int\n  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  cardId         Int\n  card           Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, cardId])\n}\n",
+  "clientVersion": "7.8.0",
+  "engineVersion": "3c6e192761c0362d496ed980de936e2f3cebcd3a",
+  "activeProvider": "postgresql",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Card {\n  id          Int            @id @default(autoincrement())\n  original    String\n  translation String\n  description String\n  deck        Deck           @relation(fields: [deckId], references: [id], onDelete: Cascade)\n  deckId      Int\n  progresses  CardProgress[]\n}\n\nmodel Deck {\n  id          Int    @id @default(autoincrement())\n  name        String @unique\n  cards       Card[]\n  authorId    Int\n  author      User   @relation(\"AuthoredDecks\", fields: [authorId], references: [id])\n  favoritedBy User[] @relation(\"FavoritedDecks\")\n  description String @default(\"Deck description\")\n}\n\nmodel User {\n  id             Int            @id @default(autoincrement())\n  username       String         @unique\n  role           String         @default(\"USER\")\n  authoredDecks  Deck[]         @relation(\"AuthoredDecks\")\n  favoritedDecks Deck[]         @relation(\"FavoritedDecks\")\n  password       String\n  cardProgresses CardProgress[]\n  settings       UserSettings?\n}\n\nmodel UserSettings {\n  id     Int    @id @default(autoincrement())\n  userId Int    @unique\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n  theme  String @default(\"light\")\n  uiLang String @default(\"english\")\n}\n\nmodel CardProgress {\n  id             Int      @id @default(autoincrement())\n  nextReviewDate DateTime @default(now())\n  interval       Int      @default(0)\n  easeFactor     Float    @default(2.5)\n  repetitions    Int      @default(0)\n  userId         Int\n  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  cardId         Int\n  card           Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, cardId])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -45,10 +45,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
   },
 
@@ -67,7 +67,9 @@ export interface PrismaClientConstructor {
    * Type-safe database client for TypeScript
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Cards
    * const cards = await prisma.card.findMany()
    * ```
@@ -89,7 +91,9 @@ export interface PrismaClientConstructor {
  * Type-safe database client for TypeScript
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Cards
  * const cards = await prisma.card.findMany()
  * ```
@@ -176,7 +180,7 @@ export interface PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => runtime.Types.Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<R>
 

@@ -4,7 +4,7 @@ TKU is a full-stack flashcard application designed to help users learn and retai
 
 It is currently focused on language learning and features typing practice
 
-**Note:** This project is currently a Work In Progress (WIP).
+**Try it out:** [tku.ivanata.cz](https://tku.ivanata.cz) (WIP).
 
 ## Tech Stack
 
@@ -15,7 +15,7 @@ It is currently focused on language learning and features typing practice
 **Backend**
 * Fastify
 * TypeScript
-* SQLite (plans to add PostgreSQL support)
+* PostgreSQL
 * Prisma
 * **Validation:** Zod (via `fastify-type-provider-zod`)
 * **Authentication:** JWT + Secure `HttpOnly` Cookies (`@fastify/jwt`, `@fastify/cookie`)
