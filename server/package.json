@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc srcv/server.ts --format esm --clean",
     "start": "node dist/server.js",
     "db:dev": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
@@ -37,6 +37,7 @@
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.3.0",
     "prisma": "^7.4.1",
+    "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
