@@ -8,11 +8,9 @@ import styles from "./CreateNewDec.module.css";
 
 export default function CreateNewDeck() {
   const [refreshTrigger, setRefreshTrigger] = useState<boolean>(true);
-  const [deckIsCreated, setDeckIsCreated] = useState<boolean>(true);
   const [deckId, setDeckId] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [totalCards, setTotalCards] = useState<number>(0);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [hasPreviousPage, setHasPreviousPage] = useState<boolean>(false);
   const [cards, setCards] = useState<Card[]>([]);
@@ -40,7 +38,6 @@ export default function CreateNewDeck() {
 
       const cards: Card[] = data;
       setTotalPages(meta.totalPages);
-      setTotalCards(meta.totalCards);
       setHasNextPage(meta.hasNextPage);
       setHasPreviousPage(meta.hasPrevPage);
 

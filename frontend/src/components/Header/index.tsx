@@ -1,12 +1,7 @@
-import type { User } from "@/types/User";
 import { useLocation } from "react-router-dom";
 import styles from "./Header.module.css"
 
-interface HeaderProps {
-  user: User | null;
-}
-
-export default function Header({ user }: HeaderProps) {
+export default function Header() {
   const location = useLocation();
 
   const getPageTitle = (pathname: string) => {

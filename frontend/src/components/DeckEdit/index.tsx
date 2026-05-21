@@ -19,19 +19,12 @@ export default function DeckEdit() {
     hasNextPage,
     userIsTyping,
     hasPrevPage,
-    queryOriginal,
     setQueryOriginal,
-    queryTranslation,
     setQueryTranslation,
-    queryDescription,
     setQueryDescription,
-    totalCards,
-    setTotalCards,
     isLoading,
     setRefreshTrigger,
     handleOnInputChange,
-    handleNextPage,
-    handlePrevPage,
   } = useDeckCards(deckId);
 
   if (isLoading) return <div>loading deck contents...</div>;

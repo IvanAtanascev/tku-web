@@ -1,5 +1,4 @@
 import useDecks from "@/hooks/useDecks";
-import styles from "./MyDecks.module.css";
 import Pagination from "@/components/Pagination";
 import DisplayFavoriteDecks from "@/components/DisplayFavoriteDecks";
 import type { User } from "@/types/User";
@@ -19,7 +18,6 @@ export default function MyDecks({ user }: MyDecksProps) {
     hasPrevPage,
     userIsTyping,
     handleOnInputChange,
-    totalDecks,
     handleChangeFavorite,
   } = useDecks(true);
 

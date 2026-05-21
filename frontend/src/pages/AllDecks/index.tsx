@@ -1,6 +1,5 @@
 import DisplayDecks from "@/components/DisplayDecks";
 import useDecks from "@/hooks/useDecks";
-import styles from "./AllDecks.module.css";
 import Pagination from "@/components/Pagination";
 import type { User } from "@/types/User";
 import { OrbitProgress } from "react-loading-indicators";
@@ -19,7 +18,6 @@ export default function AllDecks({ user }: AllDecksProps) {
     hasPrevPage,
     userIsTyping,
     handleOnInputChange,
-    totalDecks,
     handleChangeFavorite,
   } = useDecks(false);
 
