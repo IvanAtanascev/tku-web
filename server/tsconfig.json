@@ -1,7 +1,7 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
+    //"allowImportingTsExtensions": true,
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
@@ -36,7 +36,7 @@
 
     // Recommended Options
     
-    "ignoreDeprecations": "6.0",
+    //"ignoreDeprecations": "6.0",
     "strict": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
@@ -45,5 +45,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  "include": ["src/**/*"]
 }
