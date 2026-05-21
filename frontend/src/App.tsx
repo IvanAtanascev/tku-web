@@ -60,7 +60,7 @@ export default function App() {
             />
           )}
           <div className="rest-container">
-            <Header user={user} />
+            <Header />
             <div className="content-container">
               <Routes>
                 <Route
