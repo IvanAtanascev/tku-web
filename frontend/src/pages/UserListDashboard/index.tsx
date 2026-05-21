@@ -52,12 +52,8 @@ export default function UserListDashboard() {
   const [debouncedUserId, setDebouncedUserId] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [totalUsers, setTotalUsers] = useState<number>(1);
   const [hasPreviousPage, setHasPreviousPage] = useState<boolean>(false);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-  const [userIsTyping, setUserIsTyping] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [refreshTrigger, setRefreshTrigger] = useState<boolean>(false);
   const confirm = useConfirm();
 
   useEffect(() => {
@@ -65,7 +61,6 @@ export default function UserListDashboard() {
       setDebouncedUserId(userId);
       setDebouncedUsername(username);
       setPage(1);
-      setUserIsTyping(false);
     }, 1000);
 
     return () => clearTimeout(timeout);
@@ -73,7 +68,7 @@ export default function UserListDashboard() {
 
   useEffect(() => {
     fetchUsers();
-  }, [refreshTrigger, page, debouncedUserId, debouncedUsername]);
+  }, [page, debouncedUserId, debouncedUsername]);
 
   const fetchUsers = async () => {
     try {
@@ -103,7 +98,6 @@ export default function UserListDashboard() {
       const users: User[] = data;
 
       setTotalPages(meta.totalPages);
-      setTotalUsers(meta.totalRecords);
       setHasNextPage(meta.hasNextPage);
       setHasPreviousPage(meta.hasPrevPage);
 
@@ -118,7 +112,6 @@ export default function UserListDashboard() {
     setterFunction: (querystring: string) => void,
   ) => {
     setterFunction(e.target.value);
-    setUserIsTyping(true);
   };
 
   const handlePromoteUserToAdmin = async (id: number) => {
