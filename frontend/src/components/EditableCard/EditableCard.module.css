@@ -49,19 +49,18 @@
     border-radius: var(--radius-small);
     font-size: 0.9rem;
     overflow: hidden;
-    text-overflow: ellipsis;
     text-align: left;
 }
 
 .currentValueDesc {
     height: 12rem;
-    text-wrap: none;
 }
 
 .input {
   flex: 1;
   padding: 0.5rem 1rem;
   font-size: 0.95rem;
+    height: 4rem;
   font-family: var(--sans);
   border-style: none;
   background: var(--bg-white);
@@ -99,3 +98,19 @@
   color: #ef4444;
 }
 
+
+.resetIcon {
+    height: 1rem;
+}
+
+.labelDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.labelDiv > button {
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+}

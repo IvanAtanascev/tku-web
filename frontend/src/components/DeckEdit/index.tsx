@@ -31,7 +31,7 @@ export default function DeckEdit() {
 
   return (
     <div className="pageContainer">
-      <h2 className={styles.header}>{deckName}</h2>
+      <h2 className={styles.header}>Editing {deckName}</h2>
 
       <div className={styles.cardList}>
         <div className={styles.topPart}>
@@ -46,17 +46,17 @@ export default function DeckEdit() {
             <input
               onChange={(e) => handleOnInputChange(e, setQueryOriginal)}
               name="search original"
-              placeholder="Search original..."
+              placeholder="Search back..."
             />
             <input
               onChange={(e) => handleOnInputChange(e, setQueryTranslation)}
               name="search translation"
-              placeholder="Search translation..."
+              placeholder="Search front..."
             />
             <input
               onChange={(e) => handleOnInputChange(e, setQueryDescription)}
               name="search description"
-              placeholder="Search Description..."
+              placeholder="Search description..."
             />
           </div>
         </div>

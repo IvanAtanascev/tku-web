@@ -12,7 +12,7 @@ export default function LetterBox({ expectedChar, typedChar }: LetterBoxProps) {
       style={{
         width: "40px",
         height: "50px",
-        borderBottom: isSpace ? "none" : "4px solid #333",
+        borderBottom: isSpace ? "4px dashed #333" : "4px solid #333",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

@@ -38,9 +38,16 @@ export default function ImportDeck() {
   return (
     <div className="pageContainer">
       <form className={styles.importForm} onSubmit={handleImportDeck}>
-      <textarea name="importcsv" placeholder="CSV formatted deck..." />
-      <button type="submit">Import deck</button>
-    </form>
+        <textarea
+          name="importcsv"
+          placeholder={`CSV formatted deck...
+Example:
+<deck_name>,<deck_description>
+<card1_back>,<card1_front>,<card1_description>
+<card2_back>,<card2_front>,<card2_description>`}
+        />
+        <button type="submit">Import deck</button>
+      </form>
     </div>
   );
 }

@@ -15,6 +15,7 @@ import AllDecks from "./pages/AllDecks";
 import Settings from "./pages/Settings";
 import CreateNewDeck from "./pages/CreateNewDeck";
 import ImportDeck from "./pages/ImportDeck";
+import FullPageLoading from "./components/FullPageLoading";
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -44,7 +45,7 @@ export default function App() {
   }, []);
 
   if (isCheckingSession) {
-    return <div> loading...</div>;
+    return <FullPageLoading />;
   }
   return (
     <>

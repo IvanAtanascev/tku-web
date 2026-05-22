@@ -3,7 +3,7 @@ import styles from "./CreateDeck.module.css";
 
 interface CreateDeckProps {
   refreshTrigger?: () => void;
-  afterCreateDeckCallback?: (deckId: number) => void;
+  afterCreateDeckCallback?: (deckName: string, deckId: number) => void;
 }
 
 export default function CreateDeck({
@@ -35,7 +35,7 @@ export default function CreateDeck({
       setDeckDeckdescription("");
 
       if (refreshTrigger) refreshTrigger();
-      if (afterCreateDeckCallback) afterCreateDeckCallback(data.id);
+      if (afterCreateDeckCallback) afterCreateDeckCallback(data.name, data.id);
     } catch (error) {
       console.log(error);
     }

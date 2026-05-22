@@ -8,6 +8,7 @@ import styles from "./CreateNewDec.module.css";
 
 export default function CreateNewDeck() {
   const [refreshTrigger, setRefreshTrigger] = useState<boolean>(true);
+  const [deckName, setDeckName] = useState<string | null>(null);
   const [deckId, setDeckId] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -16,9 +17,12 @@ export default function CreateNewDeck() {
   const [cards, setCards] = useState<Card[]>([]);
 
   const fetchCards = async () => {
-    if (deckId === null) return;
+    if (deckName === null) return;
     try {
-      const url = new URL(`/api/decks/${deckId}/cards`, window.location.origin);
+      const url = new URL(
+        `/api/decks/${deckId}/cards`,
+        window.location.origin,
+      );
 
       url.searchParams.append("page", String(page));
       url.searchParams.append("limit", "10");
@@ -53,14 +57,22 @@ export default function CreateNewDeck() {
   return (
     <div className="pageContainer">
       <div className={styles.styleContainer}>
-        <CreateDeck
-          refreshTrigger={() => {
-            setRefreshTrigger((prev) => !prev);
-          }}
-          afterCreateDeckCallback={(newDeckId: number) => {
-            setDeckId(newDeckId);
-          }}
-        />
+        {deckName === null ? (
+          <CreateDeck
+            refreshTrigger={() => {
+              setRefreshTrigger((prev) => !prev);
+            }}
+            afterCreateDeckCallback={(
+              newDeckName: string,
+              newDeckId: number,
+            ) => {
+              setDeckName(newDeckName);
+              setDeckId(newDeckId);
+            }}
+          />
+        ) : (
+          <div>Creating new deck: {deckName}</div>
+        )}
         {deckId !== null ? (
           <>
             <CreateCard

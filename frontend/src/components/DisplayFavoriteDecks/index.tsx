@@ -3,10 +3,11 @@ import type { Deck } from "../../types/Deck";
 import styles from "./DisplayFavoriteDecks.module.css";
 import type { User } from "../../types/User";
 import { useConfirm } from "../ConfirmContext";
-import PlayIcon from "@/assets/icons/play-large-line.svg?react"
-import EditIcon from "@/assets/icons/edit-box-line.svg?react"
-import DeleteIcon from "@/assets/icons/delete-bin-line.svg?react"
-import UnfavoriteIcon from "@/assets/icons/star-off-line.svg?react"
+import PlayIcon from "@/assets/icons/play-large-line.svg?react";
+import EditIcon from "@/assets/icons/edit-box-line.svg?react";
+import DeleteIcon from "@/assets/icons/delete-bin-line.svg?react";
+import UnfavoriteIcon from "@/assets/icons/star-off-line.svg?react";
+import toast from "react-hot-toast";
 
 interface DisplayFavoriteDecksProps {
   decks: Deck[];
@@ -34,6 +35,7 @@ export default function DisplayFavoriteDecks({
         throw new Error(data.error || "unfavoriting deck failed");
       }
       unfavoriteCallback();
+      toast.success(`Removed deck from favorites`);
     } catch (error) {
       console.log(error);
     }
@@ -72,12 +74,16 @@ export default function DisplayFavoriteDecks({
             <div className={styles.cardDescription}>{deck.description}</div>
             <div className={styles.actions}>
               <Link to={`/play/${deck.id}`}>
-                <button><PlayIcon className={styles.icon} /></button>
+                <button>
+                  <PlayIcon className={styles.icon} />
+                </button>
               </Link>
               {user.role === "ADMIN" || deck.authorId === user.id ? (
                 <>
                   <Link to={`/edit/${deck.id}`}>
-                    <button><EditIcon className={styles.icon}/></button>
+                    <button>
+                      <EditIcon className={styles.icon} />
+                    </button>
                   </Link>
                   <button
                     onClick={() => {

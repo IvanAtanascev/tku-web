@@ -28,7 +28,7 @@ export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
         <input
           name="original"
           type="text"
-          placeholder="original"
+          placeholder="Back"
           value={original}
           onChange={(e) => setOriginal(e.target.value)}
           required
@@ -37,7 +37,7 @@ export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
         <input
           name="translation"
           type="text"
-          placeholder="translation"
+          placeholder="Front"
           value={translation}
           onChange={(e) => setTranslation(e.target.value)}
           required
@@ -46,7 +46,7 @@ export default function CreateCard({ deckId, onCardCreated }: CreateCardProps) {
         <input
           type="text"
           name="description"
-          placeholder="description"
+          placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required

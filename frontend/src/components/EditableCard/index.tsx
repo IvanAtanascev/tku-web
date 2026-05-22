@@ -1,6 +1,9 @@
 import toast from "react-hot-toast";
 import type { Card } from "../../types/Card";
 import styles from "./EditableCard.module.css";
+import React, { useState } from "react";
+import ResetIcon from "@/assets/icons/reset-right-line.svg?react";
+import { useConfirm } from "../ConfirmContext";
 
 interface EditableCardProps {
   card: Card;
@@ -13,7 +16,15 @@ export default function EditableCard({
   onUpdate,
   onDelete,
 }: EditableCardProps) {
-  const handleUpdate = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const [displayFront, setDisplayFront] = useState<string>(card.translation);
+  const [displayBack, setDisplayBack] = useState<string>(card.original);
+  const [displayDesc, setDisplayDesc] = useState<string>(
+    card.description ? card.description : "",
+  );
+
+  const confirm = useConfirm();
+
+  const handleUpdate = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -51,6 +62,12 @@ export default function EditableCard({
   };
 
   const handleDelete = async () => {
+    const isConfirmed = await confirm(
+      `Are you sure you want to delete this card?`,
+    );
+
+    if (!isConfirmed) return;
+
     try {
       const response = await fetch(`/api/cards/${card.id}`, {
         method: "DELETE",
@@ -66,36 +83,83 @@ export default function EditableCard({
       console.error(error);
     }
   };
+
+  const handleFieldInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    setterFunction: (value: string) => void,
+  ) => {
+    setterFunction(e.target.value);
+  };
+
   return (
     <div key={card.id} className={styles.editorCard}>
       <form onSubmit={handleUpdate} className={styles.form}>
         <div className={styles.fieldGroup}>
-          <span className={styles.label}>Original</span>
-          <div className={styles.currentValue}>{card.original}</div>
-          <input
+          <div className={styles.labelDiv}>
+            <span className={styles.label}>Back</span>
+            <button
+              type="button"
+              onClick={() => {
+                setDisplayBack(card.original);
+              }}
+            >
+              <ResetIcon className={styles.resetIcon} />
+            </button>
+          </div>
+          <textarea
             name="original"
-            placeholder="New original (back of the card)..."
+            placeholder="New back"
+            value={displayBack}
             className={styles.input}
+            onChange={(e) => {
+              handleFieldInputChange(e, setDisplayBack);
+            }}
           />
         </div>
 
         <div className={styles.fieldGroup}>
-          <span className={styles.label}>Translation</span>
-          <div className={styles.currentValue}>{card.translation}</div>
-          <input
+          <div className={styles.labelDiv}>
+            <span className={styles.label}>Front</span>
+            <button
+              type="button"
+              onClick={() => {
+                setDisplayFront(card.translation);
+              }}
+            >
+              <ResetIcon className={styles.resetIcon} />
+            </button>
+          </div>
+          <textarea
             name="translation"
-            placeholder="New translation..."
+            placeholder="New front..."
+            value={displayFront}
             className={styles.input}
+            onChange={(e) => {
+              handleFieldInputChange(e, setDisplayFront);
+            }}
           />
         </div>
 
         <div className={styles.fieldGroup}>
-          <span className={styles.label}>Description</span>
-          <div className={`${styles.currentValue} ${styles.currentValueDesc}`}>{card.description}</div>
+          <div className={styles.labelDiv}>
+            <span className={styles.label}>Description</span>
+            <button
+              type="button"
+              onClick={() => {
+                setDisplayDesc(card.description ? card.description : "");
+              }}
+            >
+              <ResetIcon className={styles.resetIcon} />
+            </button>
+          </div>
           <textarea
             name="description"
             placeholder="New description..."
+            value={displayDesc}
             className={`${styles.input} ${styles.descInput}`}
+            onChange={(e) => {
+              handleFieldInputChange(e, setDisplayDesc);
+            }}
           />
         </div>
 

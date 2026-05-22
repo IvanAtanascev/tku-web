@@ -4,6 +4,7 @@ import styles from "../DisplayFavoriteDecks/DisplayFavoriteDecks.module.css";
 import { useConfirm } from "../ConfirmContext";
 import FavoriteIcon from "@/assets/icons/heart-line.svg?react"
 import DeleteIcon from "@/assets/icons/delete-bin-line.svg?react"
+import toast from "react-hot-toast";
 
 interface DisplayDecksProps {
   decks: Deck[];
@@ -30,6 +31,7 @@ export default function DisplayDecks({
       }
 
       favoriteCallback();
+      toast.success("Added deck to favorites")
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +55,7 @@ export default function DisplayDecks({
         throw new Error("deleting deck failed");
       }
       favoriteCallback();
+      toast.success("Successfully deleted deck")
     } catch (error) {
       console.log(error);
     }

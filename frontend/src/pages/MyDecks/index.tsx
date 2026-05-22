@@ -37,21 +37,23 @@ export default function MyDecks({ user }: MyDecksProps) {
         <div className="loading-div">
           <OrbitProgress size="small" color="#072e0d" />
         </div>
-      ) : null}
+      ) : (
+        <>
+          <DisplayFavoriteDecks
+            decks={decks}
+            user={user}
+            unfavoriteCallback={handleChangeFavorite}
+          />
 
-      <DisplayFavoriteDecks
-        decks={decks}
-        user={user}
-        unfavoriteCallback={handleChangeFavorite}
-      />
-
-      <Pagination
-        totalPages={totalPages}
-        hasNextPage={hasNextPage}
-        hasPreviousPage={hasPrevPage}
-        page={page}
-        pageSetter={setPage}
-      />
+          <Pagination
+            totalPages={totalPages}
+            hasNextPage={hasNextPage}
+            hasPreviousPage={hasPrevPage}
+            page={page}
+            pageSetter={setPage}
+          />
+        </>
+      )}
     </div>
   );
 }
