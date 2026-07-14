@@ -21,3 +21,8 @@
     padding: 2rem;
     border-radius: var(--radius-mid);
 }
+
+.errorMsg {
+    max-width: 280px;
+    color: red;
+}

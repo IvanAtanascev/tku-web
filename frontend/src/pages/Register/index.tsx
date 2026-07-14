@@ -23,7 +23,7 @@ export default function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "login failed");
+        throw new Error(data.message || "login failed");
       }
       navigate("/login");
     } catch (error: any) {
@@ -51,7 +51,7 @@ export default function Register() {
             required
           />
           <button type="submit">Register</button>
-          {error && <div style={{ color: "red" }}>{error}</div>}
+          {error && <div className={styles.errorMsg}>{error}</div>}
         </form>
 
         <div className={styles.cto}>
