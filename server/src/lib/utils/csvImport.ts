@@ -33,22 +33,26 @@ export default function parseCsvToDeck(importString: string): DeckDTO {
     throw new Error("Invalid format: Deck name cannot be empty.");
   }
 
-  const cardsData: CardDTO[] = lines.slice(1).map((line, index) => {
-    const [original, translation, ...descriptionParts] = line.split(",");
+const cardsData: CardDTO[] = lines.slice(1).map((line, index) => {
+    const rawParts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+    const cleanParts = rawParts.map(part => part.trim().replace(/^"|"$/g, ''));
+
+    const [original, translation, description] = cleanParts;
 
     const trimmedOriginal = original?.trim();
     const trimmedTranslation = translation?.trim();
 
     if (!trimmedOriginal || !trimmedTranslation) {
       throw new Error(
-        `Invalid card at line ${index + 2}: Missing original word or translation.`,
+        `Invalid card at line ${index + 2}: Missing original word or translation.`
       );
     }
 
     return {
       original: trimmedOriginal,
       translation: trimmedTranslation,
-      description: descriptionParts.join(",").trim(),
+      description: description || "", 
     };
   });
 
