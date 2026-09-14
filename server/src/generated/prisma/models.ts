@@ -8,9 +8,9 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Card.ts'
-export type * from './models/Deck.ts'
-export type * from './models/User.ts'
-export type * from './models/UserSettings.ts'
-export type * from './models/CardProgress.ts'
-export type * from './commonInputTypes.ts'
+export type * from './models/Card'
+export type * from './models/Deck'
+export type * from './models/User'
+export type * from './models/UserSettings'
+export type * from './models/CardProgress'
+export type * from './commonInputTypes'

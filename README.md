@@ -4,8 +4,6 @@ TKU is a full-stack flashcard application designed to help users learn and retai
 
 It is currently focused on language learning and features typing practice
 
-**Try it out:** [tku.ivanata.cz](https://tku.ivanata.cz) (WIP).
-
 ## Tech Stack
 
 **Frontend**

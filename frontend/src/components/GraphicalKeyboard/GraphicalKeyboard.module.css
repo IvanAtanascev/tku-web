@@ -1,0 +1,8 @@
+.GraphicalKeyboardContainer {
+    background-color: var(--bg-white);
+    border-radius: var(--radius-mid);
+    display: flex;
+    margin-top: 2rem;
+    padding: 1rem;
+    gap: 1rem;
+}

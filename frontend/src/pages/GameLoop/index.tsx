@@ -4,6 +4,7 @@ import { WordDisplay } from "@/components/WordDisplay";
 import styles from "./GameLoop.module.css";
 import useGameLoop from "@/hooks/useGameLoop";
 import { OrbitProgress } from "react-loading-indicators";
+import GraphicalKeyboard from "@/components/GraphicalKeyboard";
 
 export default function GameLoop() {
   const { deckId } = useParams();
@@ -32,6 +33,10 @@ export default function GameLoop() {
     if (currentCard && text.length <= currentCard.original.length) {
       setUserInput(text);
     }
+  };
+
+  const handleGraphicalKeyClick = (char: string) => {
+    setUserInput((prev) => prev + char);
   };
 
   const handleContainerClick = () => {
@@ -118,6 +123,7 @@ export default function GameLoop() {
           Hard
         </button>
       </div>
+      <GraphicalKeyboard keyPressFunction={handleGraphicalKeyClick} keys="šč" />
     </div>
   );
 }
